@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
+import Link from 'next/link';
 import './globals.css';
 
 const robotoSans = Roboto({
@@ -18,7 +19,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${robotoSans.className} antialiased`}>{children}</body>
+      <body className={`${robotoSans.className} antialiased w-full max-w-[1140px] px-4 mx-auto`}>
+        <header className="h-20 flex items-center justify-end">
+          <p className="font-medium text-sm">
+            Built by{' '}
+            <Link href="https://duardodev.vercel.app/en" target="_blank" className="underline">
+              duardodev
+            </Link>
+          </p>
+        </header>
+
+        {children}
+      </body>
     </html>
   );
 }
