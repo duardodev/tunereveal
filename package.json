@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@microlink/mql": "^0.13.14",
     "@phosphor-icons/react": "^2.1.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
