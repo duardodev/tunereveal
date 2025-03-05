@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
+import { Providers } from './providers';
 import Link from 'next/link';
 import './globals.css';
 
@@ -29,7 +30,7 @@ export default function RootLayout({
           </p>
         </header>
 
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
