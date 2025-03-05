@@ -1,18 +1,29 @@
 'use client';
 
-import { YoutubeLogo, MagnifyingGlass } from '@phosphor-icons/react/dist/ssr';
+import mql from '@microlink/mql';
+import { useMutation } from '@tanstack/react-query';
+import { YoutubeLogo, MagnifyingGlass, CircleNotch, Check, X } from '@phosphor-icons/react/dist/ssr';
 import { Skeleton } from './ui/skeleton';
-import { useState } from 'react';
-import mql, { MqlResponseData } from '@microlink/mql';
 
 export function MusicAnalyzer() {
-  const [metadata, setMetadata] = useState<MqlResponseData | null>(null);
+  const {
+    mutate: handleAnalyze,
+    data: metadata,
+    isPending,
+    isSuccess,
+    isError,
+  } = useMutation({
+    mutationFn: async (formData: FormData) => {
+      const url = formData.get('url') as string;
 
-  async function handleAnalyze(formData: FormData) {
-    const url = formData.get('url') as string;
-    const { data } = await mql(url, { video: true });
-    setMetadata(data);
-  }
+      if (!url.includes('https://') || !url.includes('youtu')) {
+        throw new Error();
+      }
+
+      const { data } = await mql(url, { video: true });
+      return data;
+    },
+  });
 
   function handleGetYoutubeVideoId(url: string) {
     const id = url?.split('v=')[1];
@@ -27,9 +38,13 @@ export function MusicAnalyzer() {
           <input
             type="text"
             name="url"
-            className="w-full px-1 ml-1 bg-transparent focus:outline-zinc-400/90 rounded-md text-zinc-950 placeholder:text-[#444444] text-sm md:text-base"
+            className="w-[76%] px-1 ml-1 bg-transparent focus:outline-zinc-400/90 rounded-md text-zinc-950 placeholder:text-[#444444] text-sm md:text-base"
             placeholder="Paste YouTube URL here..."
           />
+
+          {isPending && <CircleNotch size={20} className="animate-spin text-zinc-600 ml-auto" />}
+          {isSuccess && <Check size={20} className="text-green-500 ml-auto" weight="bold" />}
+          {isError && <X size={20} weight="bold" className="text-red-600 ml-auto" />}
         </div>
 
         <button
