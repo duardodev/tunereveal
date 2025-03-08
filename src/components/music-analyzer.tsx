@@ -38,8 +38,8 @@ export function MusicAnalyzer() {
           <input
             type="text"
             name="url"
-            className="w-[76%] px-1 ml-1 bg-transparent focus:outline-zinc-400/90 rounded-md text-zinc-950 placeholder:text-[#444444] text-sm md:text-base"
-            placeholder="Paste YouTube URL here..."
+            className="w-[80%] px-1 ml-1 bg-transparent focus:outline-zinc-400/90 rounded-md text-zinc-950 placeholder:text-[#444444] text-sm md:text-base"
+            placeholder="Paste the YouTube URL here..."
           />
 
           {isPending && <CircleNotch size={20} className="animate-spin text-zinc-600 ml-auto" />}
