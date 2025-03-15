@@ -6,8 +6,11 @@ import { YoutubeLogo, MagnifyingGlass, CircleNotch, Check, X } from '@phosphor-i
 import { Skeleton } from './ui/skeleton';
 import { isValidYouTubeUrl } from '@/utils/is-valid-youtube-url';
 import { toast } from 'sonner';
+import { useState } from 'react';
 
 export function MusicAnalyzer() {
+  const [isDisabled, setIsDisabled] = useState(true);
+
   const {
     mutate: handleAnalyze,
     data: metadata,
@@ -43,6 +46,7 @@ export function MusicAnalyzer() {
           <input
             type="text"
             name="url"
+            onChange={e => setIsDisabled(e.target.value.trim() === '')}
             className="w-[80%] px-1 ml-1 bg-transparent focus:outline-zinc-400/90 rounded-md text-zinc-950 placeholder:text-[#444444] text-sm md:text-base"
             placeholder="Paste the YouTube URL here..."
           />
@@ -54,7 +58,8 @@ export function MusicAnalyzer() {
 
         <button
           type="submit"
-          className="bg-foreground cursor-pointer hover:bg-zinc-200 transition-colors w-10 sm:w-12 h-10 flex items-center justify-center rounded-xl"
+          disabled={isDisabled}
+          className="bg-foreground cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:bg-zinc-200 transition-all w-10 sm:w-12 h-10 flex items-center justify-center rounded-xl"
         >
           <MagnifyingGlass className="text-zinc-950" size={24} />
         </button>
