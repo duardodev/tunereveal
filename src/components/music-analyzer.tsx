@@ -4,6 +4,8 @@ import mql from '@microlink/mql';
 import { useMutation } from '@tanstack/react-query';
 import { YoutubeLogo, MagnifyingGlass, CircleNotch, Check, X } from '@phosphor-icons/react/dist/ssr';
 import { Skeleton } from './ui/skeleton';
+import { isValidYouTubeUrl } from '@/utils/is-valid-youtube-url';
+import { toast } from 'sonner';
 
 export function MusicAnalyzer() {
   const {
@@ -16,7 +18,10 @@ export function MusicAnalyzer() {
     mutationFn: async (formData: FormData) => {
       const url = formData.get('url') as string;
 
-      if (!url.includes('https://') || !url.includes('youtu')) {
+      if (!isValidYouTubeUrl(url)) {
+        toast.error('This URL is not valid!', {
+          description: 'It looks like this URL is not from YouTube. Try copying and pasting it again.',
+        });
         throw new Error();
       }
 

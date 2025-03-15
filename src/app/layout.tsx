@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import { Header } from '@/components/header';
 import { Providers } from './providers';
+import { Toaster } from 'sonner';
 import './globals.css';
 
 const robotoSans = Roboto({
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className={`${robotoSans.className} antialiased w-full max-w-[1140px] px-4 mx-auto`}>
         <Header />
         <Providers>{children}</Providers>
+        <Toaster richColors />
       </body>
     </html>
   );
