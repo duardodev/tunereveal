@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import { Header } from '@/components/header';
 import { Providers } from './providers';
+import { Spotlight } from '@/components/ui/spotlight';
 import { Toaster } from 'sonner';
 import './globals.css';
 
@@ -21,8 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${robotoSans.className} antialiased w-full max-w-[1140px] px-4 mx-auto`}>
+      <body
+        className={`${robotoSans.className} antialiased w-full max-w-[1140px] px-4 mx-auto relative overflow-hidden`}
+      >
         <Header />
+        <Spotlight className="-top-40 left-0 md:-left-150 md:-top-150" fill="white" />
         <Providers>{children}</Providers>
         <Toaster richColors />
       </body>

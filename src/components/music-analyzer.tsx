@@ -38,7 +38,7 @@ export function MusicAnalyzer() {
   return (
     <div className="w-full max-w-96 mt-0 md:mt-5 flex flex-col gap-6 md:gap-10">
       <form action={handleAnalyze} className="w-full flex items-center gap-3 md:gap-6">
-        <div className="w-full bg-zinc-100 px-3 md:px-4 py-2 rounded-xl flex items-center">
+        <div className="w-full bg-foreground px-3 md:px-4 py-2 rounded-xl flex items-center">
           <YoutubeLogo size={24} color="#f41919" weight="fill" />
           <input
             type="text"
@@ -54,13 +54,13 @@ export function MusicAnalyzer() {
 
         <button
           type="submit"
-          className="bg-zinc-100 cursor-pointer hover:bg-zinc-200 transition-colors w-10 sm:w-12 h-10 flex items-center justify-center rounded-xl"
+          className="bg-foreground cursor-pointer hover:bg-zinc-200 transition-colors w-10 sm:w-12 h-10 flex items-center justify-center rounded-xl"
         >
           <MagnifyingGlass className="text-zinc-950" size={24} />
         </button>
       </form>
 
-      <div className="bg-zinc-100 w-full rounded-xl p-4 md:p-5 space-y-4 md:space-y-5">
+      <div className="bg-foreground w-full rounded-xl p-4 md:p-5 space-y-4 md:space-y-5">
         {metadata?.url ? (
           <iframe
             src={`https://www.youtube.com/embed/${handleGetYoutubeVideoId(metadata.url)}`}
