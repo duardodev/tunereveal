@@ -5,7 +5,9 @@
 
 body {
   min-height: 100vh;
-  background: #6017e8;
+  background: linear-gradient(180deg, #0f172a, #1e40af, #38bdf8);
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 :root {
