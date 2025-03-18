@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${robotoSans.className} antialiased w-full max-w-[1140px] px-4 mx-auto`}>
         <Header />
-        <Spotlight className="-top-40 left-0 md:-left-150 md:-top-150" fill="white" />
+        <Spotlight className="hidden md:block md:-left-120 md:-top-80" fill="white" />
         <Providers>{children}</Providers>
         <Toaster richColors />
       </body>
