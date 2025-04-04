@@ -19,7 +19,7 @@ export default function Home() {
           />
           <Feature
             icon={Waveform}
-            heading="More Track Datails"
+            heading="More Track Details"
             paragraph="Dive deep into your track's sonic fingerprint"
           />
         </div>
