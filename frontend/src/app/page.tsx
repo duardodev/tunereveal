@@ -7,7 +7,7 @@ export default function Home() {
     <main className="mt-4 pb-20 grid grid-cols-1 md:grid-cols-2 justify-items-center md:justify-items-end md gap-10 sm:gap-16">
       <div className="flex flex-col gap-8 sm:gap-14 w-full max-w-[600px]">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl text-center md:text-start leading-tight font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200 bg-opacity-50">
-          Discover Your <br /> Song's DNA.
+          Discover Your <br /> Song&apos;s DNA.
         </h1>
 
         <div className="space-y-6 md:space-y-10 flex flex-col sm:flex-row md:flex-col flex-wrap md:items-start items-center justify-center">
