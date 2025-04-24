@@ -1,0 +1,40 @@
+package com.tunereveal.backend;
+
+import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/audio")
+public class AudioController {
+    private final AudioService audioService;
+
+    @Autowired
+    public AudioController(AudioService audioService) {
+        this.audioService = audioService;
+    }
+
+    @PostMapping("/analyze")
+    public ResponseEntity<?> analyzeAudio(@RequestBody Map<String, String> request) {
+        String videoUrl = request.get("videoUrl");
+
+        if (videoUrl == null || videoUrl.isEmpty()) {
+            return ResponseEntity.badRequest().body("Video URL is required!");
+        }
+
+        try {
+            Map<String, Object> analysisResult = audioService.downloadAndAnalyze(videoUrl);
+            return ResponseEntity.ok(analysisResult);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing audio!");
+        }
+    }
+}
