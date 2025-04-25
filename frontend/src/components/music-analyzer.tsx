@@ -58,7 +58,7 @@ export function MusicAnalyzer() {
 
         <button
           type="submit"
-          disabled={isDisabled}
+          disabled={isDisabled || isPending}
           className="bg-foreground cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:bg-zinc-200 transition-all w-10 sm:w-12 h-10 flex items-center justify-center rounded-xl"
         >
           <MagnifyingGlass className="text-zinc-950" size={24} />
