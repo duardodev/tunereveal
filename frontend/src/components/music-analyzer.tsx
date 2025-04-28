@@ -1,54 +1,26 @@
 'use client';
 
-import mql from '@microlink/mql';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useMutation } from '@tanstack/react-query';
 import { YoutubeLogo, MagnifyingGlass, CircleNotch, Check, X } from '@phosphor-icons/react/dist/ssr';
 import { isValidYouTubeUrl } from '@/utils/is-valid-youtube-url';
 import { Skeleton } from './ui/skeleton';
-
-interface AnalysisData {
-  bpm: number;
-  key: string;
-}
+import { MusicInfoItem } from './music-info-item';
+import { useMusicAnalyzer } from '@/hooks/use-music-analyzer';
 
 export function MusicAnalyzer() {
   const [isDisabled, setIsDisabled] = useState(true);
-
   const {
-    mutateAsync: fetchMetadata,
-    data: metadata,
-    isPending: isFetchingMetadata,
-    isSuccess: isMetadataFetched,
-    isError: isMetadataFetchError,
-  } = useMutation({
-    mutationFn: async (videoUrl: string) => {
-      const { data } = await mql(videoUrl, { video: true });
-      return data;
-    },
-  });
-
-  const {
-    mutateAsync: fetchAnalysis,
-    data: analysis,
-    isPending: isFetchingAnalysis,
-    isSuccess: isAnalysisFetched,
-    isError: isAnalysisFetchError,
-  } = useMutation({
-    mutationFn: async (videoUrl: string) => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/audio/analyze`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ videoUrl }),
-      });
-
-      const data = await response.json();
-      return data as AnalysisData;
-    },
-  });
+    fetchMetadata,
+    fetchAnalysis,
+    metadata,
+    analysis,
+    isLoading,
+    isSuccess,
+    isError,
+    isAnalysisFetched,
+    isMetadataFetched,
+  } = useMusicAnalyzer();
 
   function handleAnalyze(formData: FormData) {
     const videoUrl = formData.get('videoUrl') as string;
@@ -64,7 +36,7 @@ export function MusicAnalyzer() {
     fetchAnalysis(videoUrl);
   }
 
-  function handleGetYoutubeVideoId(videoUrl: string) {
+  function handleGetYoutubeVideoId(videoUrl?: string) {
     const id = videoUrl?.split('v=')[1];
     return id ? id.substring(0, 11) : null;
   }
@@ -82,20 +54,14 @@ export function MusicAnalyzer() {
             placeholder="Paste the YouTube URL here..."
           />
 
-          {(isFetchingMetadata || isFetchingAnalysis) && (
-            <CircleNotch size={20} className="animate-spin text-zinc-600 ml-auto" />
-          )}
-          {isMetadataFetched && isAnalysisFetched && (
-            <Check size={20} className="text-green-500 ml-auto" weight="bold" />
-          )}
-          {(isMetadataFetchError || isAnalysisFetchError) && (
-            <X size={20} weight="bold" className="text-red-600 ml-auto" />
-          )}
+          {isLoading && <CircleNotch size={20} className="animate-spin text-zinc-600 ml-auto" />}
+          {isSuccess && <Check size={20} className="text-green-500 ml-auto" weight="bold" />}
+          {isError && <X size={20} weight="bold" className="text-red-600 ml-auto" />}
         </div>
 
         <button
           type="submit"
-          disabled={isDisabled || isFetchingMetadata || isFetchingAnalysis}
+          disabled={isDisabled || isLoading}
           className="bg-foreground cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:bg-zinc-200 transition-all w-10 sm:w-12 h-10 flex items-center justify-center rounded-xl"
         >
           <MagnifyingGlass className="text-zinc-950" size={24} />
@@ -103,55 +69,33 @@ export function MusicAnalyzer() {
       </form>
 
       <div className="bg-foreground w-full rounded-xl p-4 md:p-5 space-y-4 md:space-y-5">
-        {metadata?.url ? (
-          <iframe
-            src={`https://www.youtube.com/embed/${handleGetYoutubeVideoId(metadata.url)}`}
-            className="w-full h-40 md:h-52 rounded-lg"
-          />
+        {isMetadataFetched ? (
+          <>
+            <iframe
+              src={`https://www.youtube.com/embed/${handleGetYoutubeVideoId(metadata?.url)}`}
+              className="w-full h-40 md:h-52 rounded-lg"
+            />
+            <p className="mt-5 text-zinc-950 font-medium">{metadata?.title}</p>
+          </>
         ) : (
-          <Skeleton className="w-full h-40 md:h-52" />
-        )}
-
-        {metadata?.title ? (
-          <p className="mt-5 text-zinc-950 font-medium">{metadata.title}</p>
-        ) : (
-          <Skeleton className="h-5 md:h-6 w-[60%]" />
+          <>
+            <Skeleton className="w-full h-40 md:h-52" />
+            <Skeleton className="h-5 md:h-6 w-[60%]" />
+          </>
         )}
 
         <div className="grid grid-cols-3 justify-items-center gap-2 text-sm md:text-base">
           {isAnalysisFetched ? (
             <>
-              <div className="flex flex-col items-center justify-center">
-                <p className="text-zinc-700 font-bold">{analysis.bpm}</p>
-                <p className="text-zinc-700">BPM</p>
-              </div>
-
-              <div className="flex flex-col items-center justify-center">
-                <p className="text-zinc-700 font-bold">{analysis.key}</p>
-                <p className="text-zinc-700">Key</p>
-              </div>
-
-              <div className="flex flex-col items-center justify-center">
-                <Skeleton className="h-5 w-7" />
-                <p className="text-zinc-700">Camelot</p>
-              </div>
+              <MusicInfoItem label="BPM" value={analysis?.bpm} />
+              <MusicInfoItem label="Key" value={analysis?.key} />
+              <MusicInfoItem label="Camelot" skeletonWidth="w-7" />
             </>
           ) : (
             <>
-              <div className="flex flex-col items-center justify-center">
-                <Skeleton className="h-5 w-9" />
-                <p className="text-zinc-700">BPM</p>
-              </div>
-
-              <div className="flex flex-col items-center justify-center">
-                <Skeleton className="h-5 w-14" />
-                <p className="text-zinc-700">Key</p>
-              </div>
-
-              <div className="flex flex-col items-center justify-center">
-                <Skeleton className="h-5 w-7" />
-                <p className="text-zinc-700">Camelot</p>
-              </div>
+              <MusicInfoItem label="BPM" skeletonWidth="w-9" />
+              <MusicInfoItem label="Key" skeletonWidth="w-14" />
+              <MusicInfoItem label="Camelot" skeletonWidth="w-7" />
             </>
           )}
         </div>
