@@ -1,40 +1,43 @@
 'use client';
 
-import mql from '@microlink/mql';
-import { useMutation } from '@tanstack/react-query';
-import { YoutubeLogo, MagnifyingGlass, CircleNotch, Check, X } from '@phosphor-icons/react/dist/ssr';
-import { Skeleton } from './ui/skeleton';
-import { isValidYouTubeUrl } from '@/utils/is-valid-youtube-url';
-import { toast } from 'sonner';
 import { useState } from 'react';
+import { toast } from 'sonner';
+import { YoutubeLogo, MagnifyingGlass, CircleNotch, Check, X } from '@phosphor-icons/react/dist/ssr';
+import { isValidYouTubeUrl } from '@/utils/is-valid-youtube-url';
+import { Skeleton } from './ui/skeleton';
+import { MusicInfoItem } from './music-info-item';
+import { useMusicAnalyzer } from '@/hooks/use-music-analyzer';
 
 export function MusicAnalyzer() {
   const [isDisabled, setIsDisabled] = useState(true);
-
   const {
-    mutate: handleAnalyze,
-    data: metadata,
-    isPending,
+    fetchMetadata,
+    fetchAnalysis,
+    metadata,
+    analysis,
+    isLoading,
     isSuccess,
     isError,
-  } = useMutation({
-    mutationFn: async (formData: FormData) => {
-      const url = formData.get('url') as string;
+    isAnalysisFetched,
+    isMetadataFetched,
+  } = useMusicAnalyzer();
 
-      if (!isValidYouTubeUrl(url)) {
-        toast.error('This URL is not valid!', {
-          description: 'It looks like this URL is not from YouTube. Try copying and pasting it again.',
-        });
-        throw new Error();
-      }
+  function handleAnalyze(formData: FormData) {
+    const videoUrl = formData.get('videoUrl') as string;
 
-      const { data } = await mql(url, { video: true });
-      return data;
-    },
-  });
+    if (!isValidYouTubeUrl(videoUrl)) {
+      toast.error('This URL is not valid!', {
+        description: 'It looks like this URL is not from YouTube. Try copying and pasting it again.',
+      });
+      throw new Error();
+    }
 
-  function handleGetYoutubeVideoId(url: string) {
-    const id = url?.split('v=')[1];
+    fetchMetadata(videoUrl);
+    fetchAnalysis(videoUrl);
+  }
+
+  function handleGetYoutubeVideoId(videoUrl?: string) {
+    const id = videoUrl?.split('v=')[1];
     return id ? id.substring(0, 11) : null;
   }
 
@@ -45,20 +48,20 @@ export function MusicAnalyzer() {
           <YoutubeLogo size={24} color="#f41919" weight="fill" />
           <input
             type="text"
-            name="url"
+            name="videoUrl"
             onChange={e => setIsDisabled(e.target.value.trim() === '')}
             className="w-[80%] px-1 ml-1 bg-transparent focus:outline-zinc-400/90 rounded-md text-zinc-950 placeholder:text-[#444444] text-sm md:text-base"
             placeholder="Paste the YouTube URL here..."
           />
 
-          {isPending && <CircleNotch size={20} className="animate-spin text-zinc-600 ml-auto" />}
+          {isLoading && <CircleNotch size={20} className="animate-spin text-zinc-600 ml-auto" />}
           {isSuccess && <Check size={20} className="text-green-500 ml-auto" weight="bold" />}
           {isError && <X size={20} weight="bold" className="text-red-600 ml-auto" />}
         </div>
 
         <button
           type="submit"
-          disabled={isDisabled || isPending}
+          disabled={isDisabled || isLoading}
           className="bg-foreground cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:bg-zinc-200 transition-all w-10 sm:w-12 h-10 flex items-center justify-center rounded-xl"
         >
           <MagnifyingGlass className="text-zinc-950" size={24} />
@@ -66,34 +69,35 @@ export function MusicAnalyzer() {
       </form>
 
       <div className="bg-foreground w-full rounded-xl p-4 md:p-5 space-y-4 md:space-y-5">
-        {metadata?.url ? (
-          <iframe
-            src={`https://www.youtube.com/embed/${handleGetYoutubeVideoId(metadata.url)}`}
-            className="w-full h-40 md:h-52 rounded-lg"
-          />
+        {isMetadataFetched ? (
+          <>
+            <iframe
+              src={`https://www.youtube.com/embed/${handleGetYoutubeVideoId(metadata?.url)}`}
+              className="w-full h-40 md:h-52 rounded-lg"
+            />
+            <p className="mt-5 text-zinc-950 font-medium">{metadata?.title}</p>
+          </>
         ) : (
-          <Skeleton className="w-full h-40 md:h-52" />
-        )}
-
-        {metadata?.title ? (
-          <p className="mt-5 text-zinc-950 font-medium">{metadata.title}</p>
-        ) : (
-          <Skeleton className="h-5 md:h-6 w-[60%]" />
+          <>
+            <Skeleton className="w-full h-40 md:h-52" />
+            <Skeleton className="h-5 md:h-6 w-[60%]" />
+          </>
         )}
 
         <div className="grid grid-cols-3 justify-items-center gap-2 text-sm md:text-base">
-          <div className="flex flex-col items-center justify-center">
-            <Skeleton className="h-5 w-14" />
-            <p className="text-zinc-700">Key</p>
-          </div>
-          <div className="flex flex-col items-center justify-center">
-            <Skeleton className="h-5 w-9" />
-            <p className="text-zinc-700">BPM</p>
-          </div>
-          <div className="flex flex-col items-center justify-center">
-            <Skeleton className="h-5 w-7" />
-            <p className="text-zinc-700">Camelot</p>
-          </div>
+          {isAnalysisFetched ? (
+            <>
+              <MusicInfoItem label="BPM" value={analysis?.bpm} />
+              <MusicInfoItem label="Key" value={analysis?.key} />
+              <MusicInfoItem label="Camelot" skeletonWidth="w-7" />
+            </>
+          ) : (
+            <>
+              <MusicInfoItem label="BPM" skeletonWidth="w-9" />
+              <MusicInfoItem label="Key" skeletonWidth="w-14" />
+              <MusicInfoItem label="Camelot" skeletonWidth="w-7" />
+            </>
+          )}
         </div>
       </div>
     </div>
