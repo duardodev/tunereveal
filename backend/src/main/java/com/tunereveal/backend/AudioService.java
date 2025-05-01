@@ -57,6 +57,8 @@ public class AudioService {
         if (jsonOutput.isEmpty()) {
             throw new RuntimeException("No valid JSON found in Python output.");
         }
+        
+        new File(DOWNLOAD_PATH).delete();
 
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(jsonOutput, Map.class);
