@@ -1,6 +1,5 @@
 package com.tunereveal.backend;
 
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,7 @@ public class AudioController {
         }
 
         try {
-            Map<String, Object> analysisResult = audioService.downloadAndAnalyze(videoUrl);
+            Map<String, Object> analysisResult = audioService.analyzeAudio(videoUrl);
             return ResponseEntity.ok(analysisResult);
         } catch (Exception e) {
             e.printStackTrace();
