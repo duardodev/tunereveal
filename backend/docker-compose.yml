@@ -1,0 +1,14 @@
+services:
+  spring-app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - PYTHON_API_URL=http://python-service:5000/analyze
+    depends_on:
+      - python-service
+
+  python-service:
+    build: ./python
+    ports:
+      - "5000:5000"
