@@ -1,10 +1,7 @@
-FROM python:3.9-slim
+FROM eclipse-temurin:21-jre-jammy
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential libfftw3-dev libavcodec-dev libavformat-dev \
-    libavutil-dev libswresample-dev python3-dev libsamplerate0-dev libtag1-dev \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY target/*.jar app.jar
 
-RUN pip install "numpy<2"
-
-RUN pip install essentia
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
