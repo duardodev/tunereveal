@@ -66,13 +66,42 @@ def analyze_audio(audio_path):
     audio = es.MonoLoader(filename=audio_path, sampleRate=44100)()
     bpm, _, _, _, _ = es.RhythmExtractor2013(method="multifeature")(audio)
 
-    key_extractor = es.KeyExtractor(
-        profileType="temperley2005",
-        tuningFrequency=440.0,
-        frameSize=8192,
-        hopSize=2048
+    frames = es.FrameGenerator(audio, frameSize=8192, hopSize=2048)
+    windowing = es.Windowing(type='blackmanharris62')
+    spectrum = es.Spectrum()
+    spectral_peaks = es.SpectralPeaks(
+        magnitudeThreshold=0.00001,
+        minFrequency=20,
+        maxFrequency=3500,
+        maxPeaks=60
     )
-    key, scale, _ = key_extractor(audio)
+
+    hpcp = es.HPCP(
+        size=36,
+        referenceFrequency=440.0,
+        bandPreset=False,
+        minFrequency=20,
+        maxFrequency=3500,
+        weightType='cosine'
+    )
+
+    key_detector = es.Key(
+        profileType='edma',
+        numHarmonics=4,
+        pcpSize=36,
+        slope=0.6
+    )
+
+    hpcps = []
+    for frame in frames:
+        frame_windowed = windowing(frame)
+        frame_spectrum = spectrum(frame_windowed)
+        freqs, mags = spectral_peaks(frame_spectrum)
+        frame_hpcp = hpcp(freqs, mags)
+        hpcps.append(frame_hpcp)
+
+    average_hpcp = sum(hpcps) / len(hpcps)
+    key, scale, _, _ = key_detector(average_hpcp)
 
     return {
         "bpm": round(bpm),
