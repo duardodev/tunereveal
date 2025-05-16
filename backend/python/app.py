@@ -63,46 +63,13 @@ def convert_to_wav(input_path, output_path):
         return False
 
 def analyze_audio(audio_path):
-    audio = es.MonoLoader(filename=audio_path, sampleRate=44100)()
+    extractor = es.MusicExtractor(lowlevelSilentFrames='drop')
 
-    bpm, _, _, _, _ = es.RhythmExtractor2013(method="multifeature")(audio)
+    features, _ = extractor(audio_path)
 
-    frames = es.FrameGenerator(audio, frameSize=8192, hopSize=2048)
-    windowing = es.Windowing(type='blackmanharris62')
-    spectrum = es.Spectrum()
-    spectral_peaks = es.SpectralPeaks(
-        magnitudeThreshold=0.00001,
-        minFrequency=20,
-        maxFrequency=3500,
-        maxPeaks=60
-    )
-
-    hpcp = es.HPCP(
-        size=36,
-        referenceFrequency=440.0,
-        bandPreset=False,
-        minFrequency=20,
-        maxFrequency=3500,
-        weightType='cosine'
-    )
-
-    key_detector = es.Key(
-        profileType='edma',
-        numHarmonics=4,
-        pcpSize=36,
-        slope=0.6
-    )
-
-    hpcps = []
-    for frame in frames:
-        frame_windowed = windowing(frame)
-        frame_spectrum = spectrum(frame_windowed)
-        freqs, mags = spectral_peaks(frame_spectrum)
-        frame_hpcp = hpcp(freqs, mags)
-        hpcps.append(frame_hpcp)
-
-    average_hpcp = sum(hpcps) / len(hpcps)
-    key, scale, _, _ = key_detector(average_hpcp)
+    bpm = round(features['rhythm.bpm'])
+    key = features['tonal.key_edma.key']
+    scale = features['tonal.key_edma.scale']
 
     camelot_map = {
         "C major": "8B", "C minor": "5A",
@@ -123,7 +90,6 @@ def analyze_audio(audio_path):
         "Ab major": "4B", "Ab minor": "1A",
         "Bb major": "6B", "Bb minor": "3A"
     }
-
     camelot = camelot_map.get(f"{key} {scale}")
 
     return {
