@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import essentia.standard as es
+import numpy as np
 import subprocess
 import os
 import uuid
@@ -55,7 +56,7 @@ def convert_to_wav(input_path, output_path):
         subprocess.run([
             "ffmpeg",
             "-y", "-i", input_path,
-            "-ar", "44100", "-ac", "1",
+            "-ar", "44100",
             output_path
         ], check=True)
         return True
@@ -92,11 +93,34 @@ def analyze_audio(audio_path):
     }
     camelot = camelot_map.get(f"{key} {scale}")
 
+    loudness = round(features['lowlevel.loudness_ebu128.integrated'])
+    energy = compute_energy(features)
+
     return {
-        "bpm": round(bpm),
+        "bpm": bpm,
         "key": f"{key} {scale}",
         "camelot": camelot,
+        "loudness": loudness,
+        "energy": energy,
     }
+
+def compute_energy(features):
+    loudness = features['lowlevel.loudness_ebu128.integrated']
+    loudness_score = np.clip((loudness + 60) / 60.0, 0.0, 1.0)
+
+    onset_rate = features['rhythm.onset_rate']
+    onset_score = np.clip(onset_rate / 10.0, 0.0, 1.0)
+
+    spectral_complexity = features['lowlevel.spectral_complexity.mean']
+    complexity_score = np.clip(spectral_complexity / 100.0, 0.0, 1.0)
+
+    energy_score = (
+        0.4 * loudness_score +
+        0.35 * onset_score +
+        0.25 * complexity_score
+    )
+
+    return round(energy_score * 100)
 
 def cleanup(paths):
     for path in paths:
