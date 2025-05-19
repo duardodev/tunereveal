@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import essentia.standard as es
+import numpy as np
 import subprocess
 import os
 import uuid
@@ -55,7 +56,7 @@ def convert_to_wav(input_path, output_path):
         subprocess.run([
             "ffmpeg",
             "-y", "-i", input_path,
-            "-ar", "44100", "-ac", "1",
+            "-ar", "44100",
             output_path
         ], check=True)
         return True
@@ -63,50 +64,63 @@ def convert_to_wav(input_path, output_path):
         return False
 
 def analyze_audio(audio_path):
-    audio = es.MonoLoader(filename=audio_path, sampleRate=44100)()
-    bpm, _, _, _, _ = es.RhythmExtractor2013(method="multifeature")(audio)
+    extractor = es.MusicExtractor(lowlevelSilentFrames='drop')
 
-    frames = es.FrameGenerator(audio, frameSize=8192, hopSize=2048)
-    windowing = es.Windowing(type='blackmanharris62')
-    spectrum = es.Spectrum()
-    spectral_peaks = es.SpectralPeaks(
-        magnitudeThreshold=0.00001,
-        minFrequency=20,
-        maxFrequency=3500,
-        maxPeaks=60
-    )
+    features, _ = extractor(audio_path)
 
-    hpcp = es.HPCP(
-        size=36,
-        referenceFrequency=440.0,
-        bandPreset=False,
-        minFrequency=20,
-        maxFrequency=3500,
-        weightType='cosine'
-    )
+    bpm = round(features['rhythm.bpm'])
+    key = features['tonal.key_edma.key']
+    scale = features['tonal.key_edma.scale']
 
-    key_detector = es.Key(
-        profileType='edma',
-        numHarmonics=4,
-        pcpSize=36,
-        slope=0.6
-    )
+    camelot_map = {
+        "C major": "8B", "C minor": "5A",
+        "C# major": "3B", "C# minor": "12A",
+        "D major": "10B", "D minor": "7A",
+        "D# major": "5B", "D# minor": "2A",
+        "E major": "12B", "E minor": "9A",
+        "F major": "7B", "F minor": "4A",
+        "F# major": "2B", "F# minor": "11A",
+        "G major": "9B", "G minor": "6A",
+        "G# major": "4B", "G# minor": "1A",
+        "A major": "11B", "A minor": "8A",
+        "A# major": "6B", "A# minor": "3A",
+        "B major": "1B", "B minor": "10A",
+        "Db major": "3B", "Db minor": "12A",
+        "Eb major": "5B", "Eb minor": "2A",
+        "Gb major": "2B", "Gb minor": "11A",
+        "Ab major": "4B", "Ab minor": "1A",
+        "Bb major": "6B", "Bb minor": "3A"
+    }
+    camelot = camelot_map.get(f"{key} {scale}")
 
-    hpcps = []
-    for frame in frames:
-        frame_windowed = windowing(frame)
-        frame_spectrum = spectrum(frame_windowed)
-        freqs, mags = spectral_peaks(frame_spectrum)
-        frame_hpcp = hpcp(freqs, mags)
-        hpcps.append(frame_hpcp)
-
-    average_hpcp = sum(hpcps) / len(hpcps)
-    key, scale, _, _ = key_detector(average_hpcp)
+    loudness = round(features['lowlevel.loudness_ebu128.integrated'])
+    energy = compute_energy(features)
 
     return {
-        "bpm": round(bpm),
+        "bpm": bpm,
         "key": f"{key} {scale}",
+        "camelot": camelot,
+        "loudness": loudness,
+        "energy": energy,
     }
+
+def compute_energy(features):
+    loudness = features['lowlevel.loudness_ebu128.integrated']
+    loudness_score = np.clip((loudness + 60) / 60.0, 0.0, 1.0)
+
+    onset_rate = features['rhythm.onset_rate']
+    onset_score = np.clip(onset_rate / 10.0, 0.0, 1.0)
+
+    spectral_complexity = features['lowlevel.spectral_complexity.mean']
+    complexity_score = np.clip(spectral_complexity / 100.0, 0.0, 1.0)
+
+    energy_score = (
+        0.4 * loudness_score +
+        0.35 * onset_score +
+        0.25 * complexity_score
+    )
+
+    return round(energy_score * 100)
 
 def cleanup(paths):
     for path in paths:
