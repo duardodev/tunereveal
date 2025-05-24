@@ -84,18 +84,22 @@ export function MusicAnalyzer() {
           </>
         )}
 
-        <div className="grid grid-cols-3 justify-items-center gap-2 text-sm md:text-base">
+        <div className="flex flex-wrap justify-center gap-x-18 gap-y-2 text-sm md:text-base">
           {isAnalysisFetched ? (
             <>
               <MusicInfoItem label="BPM" value={analysis?.bpm} />
               <MusicInfoItem label="Key" value={analysis?.key} />
-              <MusicInfoItem label="Camelot" skeletonWidth="w-7" />
+              <MusicInfoItem label="Camelot" value={analysis?.camelot} />
+              <MusicInfoItem label="Energy" value={analysis?.energy} />
+              <MusicInfoItem label="Loudness" value={analysis?.loudness} />
             </>
           ) : (
             <>
               <MusicInfoItem label="BPM" skeletonWidth="w-9" />
               <MusicInfoItem label="Key" skeletonWidth="w-14" />
               <MusicInfoItem label="Camelot" skeletonWidth="w-7" />
+              <MusicInfoItem label="Energy" skeletonWidth="w-7" />
+              <MusicInfoItem label="Loudness" skeletonWidth="w-7" />
             </>
           )}
         </div>

@@ -4,6 +4,9 @@ import { useMutation } from '@tanstack/react-query';
 interface AnalysisData {
   bpm: number;
   key: string;
+  camelot: string;
+  loudness: number;
+  energy: number;
 }
 
 export function useMusicAnalyzer() {
