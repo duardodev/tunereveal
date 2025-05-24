@@ -50,7 +50,8 @@ export function MusicAnalyzer() {
             type="text"
             name="videoUrl"
             onChange={e => setIsDisabled(e.target.value.trim() === '')}
-            className="w-[80%] px-1 ml-1 bg-transparent focus:outline-zinc-400/90 rounded-md text-zinc-950 placeholder:text-[#444444] text-sm md:text-base"
+            disabled={isLoading}
+            className="w-[80%] px-1 ml-1 bg-transparent disabled:cursor-not-allowed focus:outline-zinc-400/90 rounded-md text-zinc-950 placeholder:text-[#444444] text-sm md:text-base"
             placeholder="Paste the YouTube URL here..."
           />
 
