@@ -50,7 +50,8 @@ export function MusicAnalyzer() {
             type="text"
             name="videoUrl"
             onChange={e => setIsDisabled(e.target.value.trim() === '')}
-            className="w-[80%] px-1 ml-1 bg-transparent focus:outline-zinc-400/90 rounded-md text-zinc-950 placeholder:text-[#444444] text-sm md:text-base"
+            disabled={isLoading}
+            className="w-[80%] px-1 ml-1 bg-transparent disabled:cursor-not-allowed focus:outline-zinc-400/90 rounded-md text-zinc-950 placeholder:text-[#444444] text-sm md:text-base"
             placeholder="Paste the YouTube URL here..."
           />
 
@@ -84,18 +85,22 @@ export function MusicAnalyzer() {
           </>
         )}
 
-        <div className="grid grid-cols-3 justify-items-center gap-2 text-sm md:text-base">
+        <div className="flex flex-wrap justify-center gap-x-18 gap-y-2 text-sm md:text-base">
           {isAnalysisFetched ? (
             <>
               <MusicInfoItem label="BPM" value={analysis?.bpm} />
               <MusicInfoItem label="Key" value={analysis?.key} />
-              <MusicInfoItem label="Camelot" skeletonWidth="w-7" />
+              <MusicInfoItem label="Camelot" value={analysis?.camelot} />
+              <MusicInfoItem label="Energy" value={analysis?.energy} />
+              <MusicInfoItem label="Loudness" value={analysis?.loudness} />
             </>
           ) : (
             <>
               <MusicInfoItem label="BPM" skeletonWidth="w-9" />
               <MusicInfoItem label="Key" skeletonWidth="w-14" />
               <MusicInfoItem label="Camelot" skeletonWidth="w-7" />
+              <MusicInfoItem label="Energy" skeletonWidth="w-7" />
+              <MusicInfoItem label="Loudness" skeletonWidth="w-7" />
             </>
           )}
         </div>
