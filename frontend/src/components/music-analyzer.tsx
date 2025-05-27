@@ -29,7 +29,7 @@ export function MusicAnalyzer() {
       toast.error('This URL is not valid!', {
         description: 'It looks like this URL is not from YouTube. Try copying and pasting it again.',
       });
-      throw new Error();
+      return;
     }
 
     fetchMetadata(videoUrl);
