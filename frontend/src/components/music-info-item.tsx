@@ -10,11 +10,11 @@ export function MusicInfoItem({ label, value, skeletonWidth }: MusicInfoItemProp
   return (
     <div className="flex flex-col items-center justify-center">
       {value !== undefined ? (
-        <p className="text-zinc-900 font-bold capitalize">{value}</p>
+        <p className="text-secondary-foreground font-bold capitalize">{value}</p>
       ) : (
         <Skeleton className={`h-5 ${skeletonWidth}`} />
       )}
-      <p className="text-zinc-700">{label}</p>
+      <p className="text-muted-foreground">{label}</p>
     </div>
   );
 }

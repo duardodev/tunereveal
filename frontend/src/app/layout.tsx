@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import { Header } from '@/components/header';
 import { Providers } from './providers';
-import { Spotlight } from '@/components/ui/spotlight';
 import { Toaster } from 'sonner';
 import './globals.css';
+import Illustration from '@/components/ui/illustration';
 
 const robotoSans = Roboto({
   subsets: ['latin'],
@@ -22,11 +22,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${robotoSans.className} antialiased w-full max-w-[1140px] px-4 mx-auto`}>
-        <Header />
-        <Spotlight className="hidden md:block md:-left-120 md:-top-80" fill="white" />
-        <Providers>{children}</Providers>
-        <Toaster richColors />
+      <body className={`${robotoSans.className} dark antialiased w-full max-w-[1140px] overflow-x-hidden px-4 mx-auto`}>
+        <div className="w-full h-screen relative flex flex-col overflow-y-hidden supports-[overflow:clip]:overflow-y-clip">
+          <Illustration />
+          <Header />
+          <Providers>{children}</Providers>
+        </div>
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );
