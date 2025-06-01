@@ -22,8 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${robotoSans.className} dark antialiased w-full max-w-[1140px] overflow-x-hidden px-4 mx-auto`}>
-        <div className="w-full h-screen relative flex flex-col overflow-y-hidden supports-[overflow:clip]:overflow-y-clip">
+      <body
+        className={`${robotoSans.className} dark antialiased w-full h-screen max-w-[1140px] overflow-x-hidden px-4 mx-auto`}
+      >
+        <div className="w-full relative flex flex-col overflow-y-hidden supports-[overflow:clip]:overflow-y-clip">
           <Illustration />
           <Header />
           <Providers>{children}</Providers>
