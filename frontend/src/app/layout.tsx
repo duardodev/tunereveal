@@ -3,8 +3,8 @@ import { Roboto } from 'next/font/google';
 import { Header } from '@/components/header';
 import { Providers } from './providers';
 import { Toaster } from 'sonner';
-import './globals.css';
 import Illustration from '@/components/ui/illustration';
+import './globals.css';
 
 const robotoSans = Roboto({
   subsets: ['latin'],
@@ -21,11 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${robotoSans.className} dark antialiased w-full h-screen max-w-[1140px] overflow-x-hidden px-4 mx-auto`}
-      >
-        <div className="w-full relative flex flex-col overflow-y-hidden supports-[overflow:clip]:overflow-y-clip">
+    <html lang="en" className="overflow-x-hidden">
+      <body className={`${robotoSans.className} dark antialiased w-full px-4 mx-auto h-screen overflow-x-hidden`}>
+        <div className="w-full max-w-[1140px] mx-auto relative flex flex-col overflow-y-hidden supports-[overflow:clip]:overflow-y-clip">
           <Illustration />
           <Header />
           <Providers>{children}</Providers>
