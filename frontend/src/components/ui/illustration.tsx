@@ -4,7 +4,7 @@ export default function Illustration() {
   return (
     <>
       <svg
-        className="pointer-events-none absolute left-1/2 md:left-1/3 -z-10 -translate-x-full"
+        className="pointer-events-none absolute left-1/2 md:left-1/3 -z-10 -translate-x-1/2 md:-translate-x-full"
         xmlns="http://www.w3.org/2000/svg"
         width="472"
         height="422"
