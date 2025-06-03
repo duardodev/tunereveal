@@ -7,9 +7,12 @@ import { isValidYouTubeUrl } from '@/utils/is-valid-youtube-url';
 import { Skeleton } from './ui/skeleton';
 import { MusicInfoItem } from './music-info-item';
 import { useMusicAnalyzer } from '@/hooks/use-music-analyzer';
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+import { Info } from '@phosphor-icons/react';
 
 export function MusicAnalyzer() {
   const [isDisabled, setIsDisabled] = useState(true);
+
   const {
     fetchMetadata,
     fetchAnalysis,
@@ -97,10 +100,49 @@ export function MusicAnalyzer() {
           {isAnalysisFetched ? (
             <>
               <MusicInfoItem label="BPM" value={analysis?.bpm} />
-              <MusicInfoItem label="Key" value={analysis?.key} />
-              <MusicInfoItem label="Camelot" value={analysis?.camelot} />
-              <MusicInfoItem label="Energy" value={analysis?.energy} />
-              <MusicInfoItem label="Loudness" value={analysis?.loudness} />
+
+              <Tooltip>
+                <TooltipTrigger>
+                  <MusicInfoItem
+                    label={
+                      <span className="flex items-center gap-1.5">
+                        Key
+                        <Info size={16} color="gray" />
+                      </span>
+                    }
+                    value={analysis?.key}
+                    capitalize={true}
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    Alternative Key: <span className="font-bold capitalize">{analysis?.alternativeKey}</span>
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger>
+                  <MusicInfoItem
+                    label={
+                      <span className="flex items-center gap-1.5">
+                        Camelot
+                        <Info size={16} color="gray" />
+                      </span>
+                    }
+                    value={analysis?.camelot}
+                    capitalize={true}
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    Alternative Camelot: <span className="font-bold">{analysis?.alternativeCamelot}</span>
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+
+              <MusicInfoItem label="Energy" value={`${analysis?.energy}%`} />
+              <MusicInfoItem label="Loudness" value={`${analysis?.loudness} dB`} />
             </>
           ) : (
             <>

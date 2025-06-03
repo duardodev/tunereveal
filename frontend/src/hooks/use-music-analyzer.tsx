@@ -7,6 +7,8 @@ interface AnalysisData {
   camelot: string;
   loudness: number;
   energy: number;
+  alternativeKey: string;
+  alternativeCamelot: string;
 }
 
 export function useMusicAnalyzer() {
