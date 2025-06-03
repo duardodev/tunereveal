@@ -71,6 +71,8 @@ def analyze_audio(audio_path):
     bpm = round(features['rhythm.bpm'])
     key = features['tonal.key_edma.key']
     scale = features['tonal.key_edma.scale']
+    alternative_key = features['tonal.key_temperley.key']
+    alternative_scale = features['tonal.key_temperley.scale']
 
     camelot_map = {
         "C major": "8B", "C minor": "5A",
@@ -91,7 +93,9 @@ def analyze_audio(audio_path):
         "Ab major": "4B", "Ab minor": "1A",
         "Bb major": "6B", "Bb minor": "3A"
     }
+
     camelot = camelot_map.get(f"{key} {scale}")
+    alternative_camelot = camelot_map.get(f"{alternative_key} {alternative_scale}")
 
     loudness = round(features['lowlevel.loudness_ebu128.integrated'])
     energy = compute_energy(features)
@@ -99,7 +103,9 @@ def analyze_audio(audio_path):
     return {
         "bpm": bpm,
         "key": f"{key} {scale}",
+        "alternativeKey": f"{alternative_key} {alternative_scale}",
         "camelot": camelot,
+        "alternativeCamelot": alternative_camelot,
         "loudness": loudness,
         "energy": energy,
     }
