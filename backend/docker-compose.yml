@@ -4,7 +4,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - PYTHON_API_URL=http://python-service:5000/analyze
+      - PYTHON_API_URL=${PYTHON_API_URL}
     depends_on:
       - python-service
 
