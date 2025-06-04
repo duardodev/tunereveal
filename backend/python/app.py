@@ -3,10 +3,16 @@ import essentia.standard as es
 import numpy as np
 import subprocess
 import os
+import base64
 import uuid
 
 app = Flask(__name__)
 TMP_DIR = "/tmp"
+
+cookies_b64 = os.environ.get("COOKIES_B64")
+if cookies_b64:
+    with open("cookies.txt", "wb") as f:
+        f.write(base64.b64decode(cookies_b64))
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
@@ -40,6 +46,7 @@ def download_audio(video_url, output_path):
     try:
         subprocess.run([
             "yt-dlp",
+            "--cookies", "cookies.txt",
             "-f", "bestaudio[ext=m4a]",
             "--external-downloader", "aria2c",
             "--external-downloader-args", "aria2c:-x 16 -k 1M",
