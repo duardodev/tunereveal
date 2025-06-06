@@ -3,6 +3,8 @@ import { Roboto } from 'next/font/google';
 import { Header } from '@/components/header';
 import { Providers } from './providers';
 import { Toaster } from 'sonner';
+import { Analytics } from '@vercel/analytics/next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import Illustration from '@/components/ui/illustration';
 import './globals.css';
 
@@ -68,7 +70,9 @@ export default function RootLayout({
         <Header />
         <Providers>{children}</Providers>
         <Toaster richColors position="top-right" />
+        <Analytics />
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
     </html>
   );
 }
