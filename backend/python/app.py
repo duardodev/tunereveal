@@ -14,6 +14,10 @@ if cookies_b64:
     with open("cookies.txt", "wb") as f:
         f.write(base64.b64decode(cookies_b64))
 
+@app.route("/health", methods=['GET', 'HEAD'])
+def health():
+    return "OK", 200
+
 @app.route('/analyze', methods=['POST'])
 def analyze():
     try:
