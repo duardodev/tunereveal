@@ -6,7 +6,7 @@ interface AnalysisData {
   key: string;
   camelot: string;
   loudness: number;
-  energy: number;
+  timeSignature: string;
   alternativeKey: string;
   alternativeCamelot: string;
 }

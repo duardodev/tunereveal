@@ -141,7 +141,7 @@ export function MusicAnalyzer() {
                 </TooltipContent>
               </Tooltip>
 
-              <MusicInfoItem label="Energy" value={`${analysis?.energy}%`} />
+              <MusicInfoItem label="Time Signature" value={`${analysis?.timeSignature}`} />
               <MusicInfoItem label="Loudness" value={`${analysis?.loudness} dB`} />
             </>
           ) : (
@@ -149,7 +149,7 @@ export function MusicAnalyzer() {
               <MusicInfoItem label="BPM" skeletonWidth="w-9" />
               <MusicInfoItem label="Key" skeletonWidth="w-14" />
               <MusicInfoItem label="Camelot" skeletonWidth="w-7" />
-              <MusicInfoItem label="Energy" skeletonWidth="w-7" />
+              <MusicInfoItem label="Time Signature" skeletonWidth="w-7" />
               <MusicInfoItem label="Loudness" skeletonWidth="w-7" />
             </>
           )}
