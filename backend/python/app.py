@@ -121,7 +121,7 @@ def analyze_audio(audio_path):
     alternative_camelot = camelot_map.get(f"{alternative_key} {alternative_scale}")
 
     loudness = round(features['lowlevel.loudness_ebu128.integrated'])
-    energy = compute_energy(features)
+    time_signature = compute_time_signature(features)
 
     return {
         "bpm": bpm,
@@ -130,26 +130,34 @@ def analyze_audio(audio_path):
         "camelot": camelot,
         "alternativeCamelot": alternative_camelot,
         "loudness": loudness,
-        "energy": energy,
+        "timeSignature": time_signature,
     }
 
-def compute_energy(features):
-    loudness = features['lowlevel.loudness_ebu128.integrated']
-    loudness_score = np.clip((loudness + 60) / 60.0, 0.0, 1.0)
 
-    onset_rate = features['rhythm.onset_rate']
-    onset_score = np.clip(onset_rate / 10.0, 0.0, 1.0)
+def compute_time_signature(features):
+    beats_count = features['rhythm.beats_count']
 
-    spectral_complexity = features['lowlevel.spectral_complexity.mean']
-    complexity_score = np.clip(spectral_complexity / 100.0, 0.0, 1.0)
+    if 2 <= beats_count <= 7:
+        time_sigs = {
+            2: "2/4",
+            3: "3/4",
+            4: "4/4",
+            6: "6/8",
+            5: "5/4",
+            7: "7/4"
+        }
+        return time_sigs.get(beats_count, "4/4")
 
-    energy_score = (
-        0.4 * loudness_score +
-        0.35 * onset_score +
-        0.25 * complexity_score
-    )
+    bpm = features['rhythm.bpm']
 
-    return round(energy_score * 100)
+    if bpm > 160:
+        return "2/4" if random.random() < 0.7 else "4/4"
+    elif 120 < bpm <= 160:
+        return "4/4"
+    elif 80 <= bpm <= 120:
+        return "6/8" if beat_histogram and beat_histogram[3] > 0.5 else "3/4"
+    else:
+        return "4/4"
 
 def cleanup(paths):
     for path in paths:
