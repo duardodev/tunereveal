@@ -136,26 +136,24 @@ def analyze_audio(audio_path):
 
 def compute_time_signature(features):
     beats_count = features['rhythm.beats_count']
+    bpm = features['rhythm.bpm']
+    beat_histogram = features['rhythm.bpm_histogram']
 
-    if 2 <= beats_count <= 7:
+    if beats_count in {2, 3, 4, 5, 6, 7}:
         time_sigs = {
             2: "2/4",
             3: "3/4",
             4: "4/4",
-            6: "6/8",
             5: "5/4",
+            6: "6/8",
             7: "7/4"
         }
-        return time_sigs.get(beats_count, "4/4")
-
-    bpm = features['rhythm.bpm']
+        return time_sigs[beats_count, "4/4"]
 
     if bpm > 160:
-        return "2/4" if random.random() < 0.7 else "4/4"
-    elif 120 < bpm <= 160:
-        return "4/4"
+        return "2/4" if bpm % 2 == 0 else "4/4"
     elif 80 <= bpm <= 120:
-        return "6/8" if beat_histogram and beat_histogram[3] > 0.5 else "3/4"
+        return "6/8" if len(beat_histogram) > 3 and beat_histogram[3] < 0.5 else "4/4"
     else:
         return "4/4"
 
