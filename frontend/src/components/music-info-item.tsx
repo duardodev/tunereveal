@@ -13,11 +13,11 @@ export function MusicInfoItem({ label, value, skeletonWidth, capitalize = false 
   return (
     <div className="flex flex-col items-center justify-center">
       {value !== undefined ? (
-        <p className={cn('text-secondary-foreground font-bold', capitalize && 'capitalize')}>{value}</p>
+        <p className={cn('text-foreground/95 font-bold', capitalize && 'capitalize')}>{value}</p>
       ) : (
         <Skeleton className={`h-5 ${skeletonWidth}`} />
       )}
-      <p className="text-muted-foreground">{label}</p>
+      <p className="mt-[2-px] text-foreground/95">{label}</p>
     </div>
   );
 }
