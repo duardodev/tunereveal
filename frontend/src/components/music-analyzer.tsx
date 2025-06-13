@@ -84,7 +84,7 @@ export function MusicAnalyzer() {
         ) : (
           <>
             <Skeleton className="w-full h-40 md:h-52" />
-            <Skeleton className="h-5 md:h-6 w-[60%]" />
+            <Skeleton className="h-5 md:h-6 w-full" />
           </>
         )}
 
