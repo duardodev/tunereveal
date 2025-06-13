@@ -10,13 +10,17 @@ export default function Home() {
           Uncover the Core of Any Sound<span className="text-red-500">.</span>
         </h1>
 
-        <div className="space-y-6 md:space-y-10 flex flex-col sm:flex-row md:flex-col flex-wrap md:items-start items-center justify-center">
-          <Feature icon={Metronome} heading="BPM Analysis" paragraph="Beat-perfect tempo analysis." />
-          <Feature icon={MusicNote} heading="Get the Key" paragraph="Know your song's musical key instantly." />
+        <div className="space-y-8 flex flex-col sm:flex-row md:flex-col flex-wrap md:items-start items-center justify-center">
+          <Feature icon={MusicNote} heading="Key Identification" paragraph="Get the musical key and Camelot code." />
+          <Feature
+            icon={Metronome}
+            heading="Precise BPM Detection"
+            paragraph="Get the exact tempo of any song in beats per minute."
+          />
           <Feature
             icon={Waveform}
-            heading="More Track Details"
-            paragraph="Dive deep into your track's sonic fingerprint."
+            heading="YouTube Music Analyzer"
+            paragraph="Just paste a YouTube URL - we'll analyze BPM, key, and more."
           />
         </div>
       </div>
