@@ -12,7 +12,8 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 WORKDIR /app
-COPY app.py ./
+COPY main.py ./
+COPY app/ app/
 
 EXPOSE 5000
-CMD ["python", "app.py"]
+CMD ["python", "main.py"]
