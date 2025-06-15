@@ -1,15 +1,21 @@
 import essentia.standard as es
+import numpy as np
 
 def analyze_audio(audio_path):
-    extractor = es.MusicExtractor(lowlevelSilentFrames='drop')
+    audio_st, _, _, _, _, _ = es.AudioLoader(filename=audio_path)()
+    audio_st = es.StereoTrimmer()(audio_st)
 
-    features, _ = extractor(audio_path)
+    audio_mono = es.MonoLoader(filename=audio_path)()
 
-    bpm = round(features['rhythm.bpm'])
-    key = features['tonal.key_edma.key']
-    scale = features['tonal.key_edma.scale']
-    alternative_key = features['tonal.key_temperley.key']
-    alternative_scale = features['tonal.key_temperley.scale']
+    _, _, loudness, _ = es.LoudnessEBUR128(hopSize=1024/44100, startAtZero=True)(audio_st)
+    loudness = round(float(loudness))
+
+    rhythm_extractor = es.RhythmExtractor2013(method="multifeature")
+    bpm, beats, _, _, _ = rhythm_extractor(audio_mono)
+    bpm = round(float(bpm))
+
+    key_edma, scale_edma, _= es.KeyExtractor(profileType='edma')(audio_mono)
+    key_temp, scale_temp, _ = es.KeyExtractor(profileType='temperley')(audio_mono)
 
     camelot_map = {
         "C major": "8B", "C minor": "5A",
@@ -31,42 +37,41 @@ def analyze_audio(audio_path):
         "Bb major": "6B", "Bb minor": "3A"
     }
 
-    camelot = camelot_map.get(f"{key} {scale}")
-    alternative_camelot = camelot_map.get(f"{alternative_key} {alternative_scale}")
+    camelot = camelot_map.get(f"{key_edma} {scale_edma}")
+    alternative_camelot = camelot_map.get(f"{key_temp} {scale_temp}")
 
-    loudness = round(features['lowlevel.loudness_ebu128.integrated'])
-    time_signature = compute_time_signature(features)
+    time_signature = compute_time_signature(beats, bpm)
 
-    return {
+    result = {
         "bpm": bpm,
-        "key": f"{key} {scale}",
-        "alternativeKey": f"{alternative_key} {alternative_scale}",
+        "key": f"{key_edma} {scale_edma}",
+        "alternativeKey": f"{key_temp} {scale_temp}",
         "camelot": camelot,
         "alternativeCamelot": alternative_camelot,
         "loudness": loudness,
         "timeSignature": time_signature,
     }
 
+    return result
 
-def compute_time_signature(features):
-    beats_count = features['rhythm.beats_count']
-    bpm = features['rhythm.bpm']
-    beat_histogram = features['rhythm.bpm_histogram']
 
-    if beats_count in {2, 3, 4, 5, 6, 7}:
-        time_sigs = {
-            2: "2/4",
-            3: "3/4",
-            4: "4/4",
-            5: "5/4",
-            6: "6/8",
-            7: "7/4"
-        }
-        return time_sigs[beats_count, "4/4"]
-
-    if bpm > 160:
-        return "2/4" if bpm % 2 == 0 else "4/4"
-    elif 80 <= bpm <= 120:
-        return "6/8" if len(beat_histogram) > 3 and beat_histogram[3] < 0.5 else "4/4"
-    else:
+def compute_time_signature(beats, bpm):
+    if len(beats) < 4:
         return "4/4"
+
+    intervals = np.diff(beats)
+    mean_interval = np.median(intervals)
+
+    if bpm >= 160:
+        return "2/4"
+
+    if 90 <= bpm <= 130:
+        if mean_interval < 0.35:
+            return "6/8"
+        else:
+            return "4/4"
+
+    if 60 <= bpm < 90:
+        return "3/4"
+
+    return "4/4"
