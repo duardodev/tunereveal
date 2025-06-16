@@ -16,10 +16,10 @@ export function Feature({ heading, paragraph, icon: Icon }: FeatureProps) {
         'md:p-4 transition-colors md:bg-[linear-gradient(110deg,#121217,45%,#17171d,55%,#121217)]'
       )}
     >
-      <Icon className="h-12 max-w-12 sm:h-14 sm:max-w w-full text-red" color="#f1ecec" />
+      <Icon className="h-12 max-w-12 sm:h-14 sm:max-w w-full text-red" color="#ffffff" />
       <div className="max-w-2xs lg:max-w-full">
-        <h2 className="text-foreground/95 text-xl text-center md:text-start font-medium">{heading}</h2>
-        <p className="text-center md:text-start text-foreground/95">{paragraph}</p>
+        <h2 className="text-foreground/95 text-xl text-center md:text-start font-bold">{heading}</h2>
+        <p className="text-center md:text-start text-foreground/90 font-medium">{paragraph}</p>
       </div>
     </div>
   );
