@@ -8,8 +8,10 @@
 - 🎧 Download audio directly from YouTube videos.
 - 🎼 Analyze **key** and **camelot** (including alternative key detection).
 - 🎚️ Detect **BPM (tempo)** accurately.
-- 🥁 Analyze **time signature (meter)**.
-- 📏 Accurate **loudness measurement**.
+- 🥁 Time signature detection (e.g., 4/4, 3/4)
+- 🔊 Loudness measurement (LUFS)
+- 📊 Frontend interface to visualize results
+
 
 ---
 
@@ -24,7 +26,76 @@
 
 ---
 
-## ✅ Prerequisites
+## 📦 Prerequisites
 
-- Docker & Docker Compose installed
-- (Optional) Java 21 and Node.js if running without Docker
+Before running this project, ensure you have the following installed:
+
+- Docker & Docker Compose
+- Node.js and npm (for frontend development)
+
+## 🚀 Installation
+
+### Clone the repository
+
+```bash
+git clone https://github.com/duardodev/tunereveal.git
+cd tunereveal
+```
+
+### Backend Setup
+
+1. Navigate to the backend folder:
+   ```bash
+   cd backend
+   ```
+
+2. Copy environment variables file:
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Build and start backend and python service using Docker Compose:
+   ```bash
+   docker compose up --build
+   ```
+
+### Frontend Setup
+
+1. Navigate to the frontend folder:
+   ```bash
+   cd frontend
+   ```
+
+2. Copy environment variables file:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+4. Run the frontend development server:
+   ```bash
+   npm run dev
+   ```
+
+## 💻 Usage
+
+1. Open the frontend app in your browser at `http://localhost:3000`.
+2. Enter a YouTube video URL in the input form.
+3. Submit and wait a few moments while the audio is processed.
+4. View the detailed audio analysis results displayed on the page.
+
+## 📡 API Endpoints
+
+| Method | Endpoint        | Description                                        |
+|--------|----------------|----------------------------------------------------|
+| POST   | `/api/analyze` | Submit a YouTube URL and receive audio analysis   |
+| GET    | `/api/health`  | Backend health check                               |
+| POST   | `/analyze`     | Audio analysis endpoint on Python microservice    |
+
+## 🤝 Contributing
+
+Contributions are welcome! If you'd like to enhance this project or report issues, please submit a pull request or open an issue.
