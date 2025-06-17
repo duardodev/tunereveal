@@ -55,7 +55,7 @@ export function MusicAnalyzer() {
             onChange={e => setIsDisabled(e.target.value.trim() === '')}
             disabled={isLoading}
             className="w-[80%] px-1 ml-1 bg-transparent disabled:cursor-not-allowed outline-0 rounded-md text-foreground placeholder:text-foreground/95 text-sm md:text-base"
-            placeholder="Paste the YouTube URL here..."
+            placeholder="Paste a YouTube music link..."
           />
 
           {isLoading && <CircleNotch size={20} className="animate-spin text-zinc-600 ml-auto" />}
