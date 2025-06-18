@@ -144,3 +144,15 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.text-gradient {
+  background: linear-gradient(
+    to right bottom,
+    var(--foreground) 30%,
+    color-mix(in srgb, var(--foreground) 50%, transparent)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: unset;
+}
