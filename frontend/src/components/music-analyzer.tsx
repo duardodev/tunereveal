@@ -47,7 +47,7 @@ export function MusicAnalyzer() {
   return (
     <div className="w-full max-w-96 mt-0 md:mt-5 flex flex-col gap-6 md:gap-10">
       <form action={handleAnalyze} className="w-full flex items-center gap-3 md:gap-6">
-        <div className="w-full bg-[#121217] border border-border hover:border-muted-foreground transition-all px-3 md:px-4 py-2 rounded-xl flex items-center">
+        <div className="w-full bg-[#0e0e12] border border-border hover:border-muted-foreground transition-all px-3 md:px-4 py-2 rounded-xl flex items-center">
           <YoutubeLogo size={24} color="#ed1313" weight="duotone" />
           <input
             type="text"
@@ -66,13 +66,13 @@ export function MusicAnalyzer() {
         <button
           type="submit"
           disabled={isDisabled || isLoading}
-          className="bg-[#121217] border border-border cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:bg-muted transition-all w-10 sm:w-12 h-10 flex items-center justify-center rounded-xl"
+          className="bg-[#0e0e12] border border-border cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:bg-muted transition-all w-10 sm:w-12 h-10 flex items-center justify-center rounded-xl"
         >
           <MagnifyingGlass size={24} color="#efeaea" />
         </button>
       </form>
 
-      <div className="bg-[#121217] border border-border w-full rounded-xl p-4 md:p-5 space-y-4 md:space-y-5">
+      <div className="bg-[#0e0e12] border border-border w-full rounded-xl p-4 md:p-5 space-y-4 md:space-y-5">
         {isMetadataFetched ? (
           <>
             <iframe
