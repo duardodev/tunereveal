@@ -2,7 +2,7 @@
 
 [TuneReveal](https://tunereveal.vercel.app/) is a music analysis platform that extracts detailed audio features like **key**, **BPM**, **time signature** and more, directly from **YouTube videos**. Designed for DJs, music producers and music enthusiasts.
 
-<img width="1300" alt="" src="https://imgur.com/JWYI6bz.png">
+<img width="1300" alt="" src="https://imgur.com/YZokz2q.png">
 
 ---
 
