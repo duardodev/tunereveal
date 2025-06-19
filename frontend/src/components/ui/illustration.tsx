@@ -57,7 +57,7 @@ export default function Illustration() {
       </svg>
 
       <svg
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-10"
+        className="pointer-events-none absolute left-1/2 top-1/6 -z-10"
         xmlns="http://www.w3.org/2000/svg"
         width="472"
         height="422"

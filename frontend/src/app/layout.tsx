@@ -7,6 +7,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import Illustration from '@/components/ui/illustration';
 import './globals.css';
+import { Footer } from '@/components/footer';
 
 const robotoSans = Roboto({
   subsets: ['latin'],
@@ -14,7 +15,7 @@ const robotoSans = Roboto({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://tunereveal.vercel.app'),
-  title: 'TuneReveal | Get the BPM, Key and Audio Analysis from Any YouTube Song',
+  title: 'TuneReveal: Get the BPM, Key and Audio Analysis from Any YouTube Song',
   description:
     'TuneReveal analyze YouTube music videos and reveal musical insights like Key, BPM, and more. Perfect for creators, producers, and music lovers.',
   keywords: [
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
   creator: 'Deivit Eduardo',
   openGraph: {
     siteName: 'TuneReveal',
-    title: 'TuneReveal | Get the BPM, Key and Audio Analysis from Any YouTube Song',
+    title: 'TuneReveal: Get the BPM, Key and Audio Analysis from Any YouTube Song',
     description:
       'TuneReveal analyze YouTube music videos and reveal musical insights like Key, BPM, and more. Perfect for creators, producers, and music lovers.',
     url: 'https://tunereveal.vercel.app',
@@ -72,6 +73,7 @@ export default function RootLayout({
         <Illustration />
         <Header />
         <Providers>{children}</Providers>
+        <Footer />
         <Toaster richColors position="top-right" />
         <Analytics />
       </body>
