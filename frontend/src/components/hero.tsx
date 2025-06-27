@@ -6,7 +6,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="-scroll-m-96 md:scroll-m-16 grid grid-cols-1 md:grid-cols-2 justify-items-center md:justify-items-end items-center gap-10 sm:gap-16"
+      className="-scroll-mt-96 md:scroll-mt-16 grid grid-cols-1 md:grid-cols-2 justify-items-center md:justify-items-end items-center gap-10 sm:gap-16"
     >
       <div className="flex flex-col gap-8 sm:gap-14 w-full max-w-[600px]">
         <h1 className="text-4xl sm:text-5xl text-center md:text-start leading-tight font-semibold tracking-tight text-foreground z-10">
