@@ -46,7 +46,7 @@ export function useMusicAnalyzer() {
     },
   });
 
-  const isLoading = isFetchingMetadata && isFetchingAnalysis;
+  const isLoading = isFetchingMetadata || isFetchingAnalysis;
   const isSuccess = isMetadataFetched && isAnalysisFetched;
   const isError = isMetadataFetchError || isAnalysisFetchError;
 
