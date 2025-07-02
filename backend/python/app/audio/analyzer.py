@@ -1,5 +1,6 @@
 import essentia.standard as es
 import numpy as np
+import gc
 
 def analyze_audio(audio_path):
     audio_st, _, _, _, _, _ = es.AudioLoader(filename=audio_path)()
@@ -10,12 +11,18 @@ def analyze_audio(audio_path):
     _, _, loudness, _ = es.LoudnessEBUR128(hopSize=1024/44100, startAtZero=True)(audio_st)
     loudness = round(float(loudness))
 
+    del audio_st
+    gc.collect()
+
     rhythm_extractor = es.RhythmExtractor2013(method="multifeature")
     bpm, beats, _, _, _ = rhythm_extractor(audio_mono)
     bpm = round(float(bpm))
 
     key_edma, scale_edma, _= es.KeyExtractor(profileType='edma')(audio_mono)
     key_temp, scale_temp, _ = es.KeyExtractor(profileType='temperley')(audio_mono)
+
+    del audio_mono
+    gc.collect()
 
     camelot_map = {
         "C major": "8B", "C minor": "5A",
