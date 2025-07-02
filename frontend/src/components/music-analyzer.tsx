@@ -93,7 +93,7 @@ export function MusicAnalyzer() {
             <>
               <MusicInfoItem label="BPM" value={analysis?.bpm} />
 
-              <Tooltip>
+              <Tooltip delayDuration={0}>
                 <TooltipTrigger>
                   <MusicInfoItem
                     label={
@@ -106,14 +106,18 @@ export function MusicAnalyzer() {
                     capitalize={true}
                   />
                 </TooltipTrigger>
-                <TooltipContent>
+                <TooltipContent
+                  sideOffset={5}
+                  align="center"
+                  className="p-3 text-sm font-medium bg-background border border-border rounded-lg shadow-lg backdrop-blur-sm bg-opacity-90 text-foreground max-w-[200px]"
+                >
                   <p>
                     Alternative Key: <span className="font-bold capitalize">{analysis?.alternativeKey}</span>
                   </p>
                 </TooltipContent>
               </Tooltip>
 
-              <Tooltip>
+              <Tooltip delayDuration={0}>
                 <TooltipTrigger>
                   <MusicInfoItem
                     label={
@@ -126,7 +130,11 @@ export function MusicAnalyzer() {
                     capitalize={true}
                   />
                 </TooltipTrigger>
-                <TooltipContent>
+                <TooltipContent
+                  sideOffset={5}
+                  align="center"
+                  className="p-3 text-sm font-medium bg-background border border-border rounded-lg shadow-lg backdrop-blur-sm bg-opacity-90 text-foreground max-w-[200px]"
+                >
                   <p>
                     Alternative Camelot: <span className="font-bold">{analysis?.alternativeCamelot}</span>
                   </p>
