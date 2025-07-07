@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libavcodec-dev \
     ffmpeg \
     aria2 \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /tmp && chmod -R a+rw /tmp
 
@@ -16,4 +17,4 @@ COPY main.py ./
 COPY app/ app/
 
 EXPOSE 5000
-CMD ["python", "main.py"]
+CMD ["python", "-u", "main.py"]
