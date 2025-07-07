@@ -19,7 +19,14 @@ def download_audio(video_url, base_path):
             check=True
         )
 
+        print("stdout:", result.stdout)
+        print("stderr:", result.stderr)
+
         info = json.loads(result.stdout)
         return f"{base_path}.{info['ext']}"
+
     except subprocess.CalledProcessError as e:
-            return False
+        print("Error downloading with yt-dlp:")
+        print("stdout:", e.stdout)
+        print("stderr:", e.stderr)
+        return False
