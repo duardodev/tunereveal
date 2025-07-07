@@ -10,10 +10,9 @@ import uuid
 api_bp = Blueprint('api', __name__)
 TMP_DIR = "/tmp"
 
-cookies_b64 = os.environ.get("COOKIES_B64")
-if cookies_b64:
+if os.getenv("COOKIES_B64"):
     with open("cookies.txt", "wb") as f:
-        f.write(base64.b64decode(cookies_b64))
+        f.write(base64.b64decode(os.getenv("COOKIES_B64")))
 
 @api_bp.route("/health", methods=["GET", "HEAD"])
 def health():
