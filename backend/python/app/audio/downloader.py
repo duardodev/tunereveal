@@ -1,13 +1,38 @@
 import subprocess
 import json
 import traceback
+import os
+import requests
+
+def test_proxy(proxy_url):
+    try:
+        response = requests.get(
+            "https://httpbin.org/ip",
+            proxies={
+                "http": proxy_url,
+                "https": proxy_url
+            }
+        )
+
+        print(f"[DEBUG] Proxy working. IP: {response.json()['origin']}")
+        return True
+    except Exception as e:
+        print(f"[ERROR] Proxy not working: {e}")
+        return False
 
 def download_audio(video_url, base_path):
     try:
+        proxy_url = os.getenv('PROXY_URL')
+
+        if proxy_url and not test_proxy(proxy_url):
+            print(f"[WARNING] Proxy is not working!")
+            proxy_url = None
+
         command = [
             "yt-dlp",
             "--cookies", "cookies.txt",
             "--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "--proxy", proxy_url,
             "-f", "bestaudio",
             "--external-downloader", "aria2c",
             "--external-downloader-args", "aria2c:-x 16 -k 1M",

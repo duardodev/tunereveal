@@ -2,3 +2,4 @@ Flask==3.0.0
 yt-dlp
 numpy<2
 essentia
+requests
