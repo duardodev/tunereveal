@@ -1,4 +1,3 @@
-import mql from '@microlink/mql';
 import { useMutation } from '@tanstack/react-query';
 
 interface AnalysisData {
@@ -20,13 +19,8 @@ export function useMusicAnalyzer() {
     isError: isMetadataFetchError,
   } = useMutation({
     mutationFn: async (videoUrl: string) => {
-      const { data } = await mql(videoUrl, {
-        audio: false,
-        video: false,
-        meta: true,
-        screenshot: false,
-      });
-
+      const response = await fetch(`https://noembed.com/embed?url=${videoUrl}`);
+      const data = await response.json();
       return data;
     },
   });

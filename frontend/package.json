@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@microlink/mql": "^0.13.14",
     "@next/third-parties": "^15.3.3",
     "@phosphor-icons/react": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",
