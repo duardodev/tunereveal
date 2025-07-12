@@ -20,7 +20,13 @@ export function useMusicAnalyzer() {
     isError: isMetadataFetchError,
   } = useMutation({
     mutationFn: async (videoUrl: string) => {
-      const { data } = await mql(videoUrl, { video: true });
+      const { data } = await mql(videoUrl, {
+        audio: false,
+        video: false,
+        meta: true,
+        screenshot: false,
+      });
+
       return data;
     },
   });
