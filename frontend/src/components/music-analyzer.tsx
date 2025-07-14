@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { YoutubeLogo, MagnifyingGlass, CircleNotch, Check, X } from '@phosphor-icons/react/dist/ssr';
-import { isValidYouTubeUrl } from '@/utils/is-valid-youtube-url';
+import { normalizeYouTubeUrl } from '@/utils/normalize-youtube-url';
 import { Skeleton } from './ui/skeleton';
 import { MusicInfoItem } from './music-info-item';
 import { useMusicAnalyzer } from '@/hooks/use-music-analyzer';
@@ -27,22 +27,28 @@ export function MusicAnalyzer() {
 
   function handleAnalyze(formData: FormData) {
     const videoUrl = formData.get('videoUrl') as string;
+    const normalizedUrl = normalizeYouTubeUrl(videoUrl);
 
-    if (!isValidYouTubeUrl(videoUrl)) {
-      toast.error('This URL is not valid!', {
-        description: 'It looks like this URL is not from YouTube. Try copying and pasting it again.',
+    if (!normalizedUrl) {
+      toast.error('Invalid YouTube link!', {
+        closeButton: true,
+        description: 'Please enter a valid YouTube video link.',
       });
       return;
     }
 
-    fetchMetadata(videoUrl);
-    fetchAnalysis(videoUrl);
+    fetchMetadata(normalizedUrl);
+    fetchAnalysis(normalizedUrl);
   }
 
   function handleGetYoutubeVideoId(videoUrl?: string) {
-    const id = videoUrl?.split('v=')[1];
-    return id ? id.substring(0, 11) : null;
+    const normalizedUrl = normalizeYouTubeUrl(videoUrl || '');
+    if (!normalizedUrl) return null;
+    
+    const url = new URL(normalizedUrl);
+    return url.searchParams.get('v') || null;
   }
+  
 
   return (
     <div className="w-full max-w-96 mt-0 md:mt-5 flex flex-col gap-6 md:gap-10">
