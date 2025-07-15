@@ -11,12 +11,14 @@ function getYouTubeVideoId(url: string): string | null {
   const urlWithoutProtocol = url.replace(/^(https?:\/\/)?(www\.)?/, '');
 
   if (urlWithoutProtocol.startsWith('youtu.be/')) {
-    return urlWithoutProtocol.split('/')[1]?.substring(0, 11) || null;
+    const id = urlWithoutProtocol.split('/')[1];
+    return id && id.length === 11 ? id : null;
   }
 
   if (urlWithoutProtocol.includes('youtube.com/watch')) {
     const vParam = new URLSearchParams(urlWithoutProtocol.split('?')[1] || '');
-    return vParam.get('v')?.substring(0, 11) || null;
+    const id = vParam.get('v');
+    return id && id.length === 11 ? id : null;
   }
 
   return null;
