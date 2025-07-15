@@ -12,6 +12,7 @@ import { Info } from '@phosphor-icons/react';
 
 export function MusicAnalyzer() {
   const [isDisabled, setIsDisabled] = useState(true);
+  const [inputValue, setInputValue] = useState('');
 
   const {
     fetchMetadata,
@@ -43,12 +44,12 @@ export function MusicAnalyzer() {
     });
 
     try {
-      fetchMetadata(normalizedUrl);
+      await fetchMetadata(normalizedUrl);
       await fetchAnalysis(normalizedUrl);
 
       toast.success('Music analysis completed!', {
         closeButton: true,
-        description: 'You can now view the music details below. 111111',
+        description: 'You can now view the music details below.',
         duration: 5000,
       });
     } catch (error) {
@@ -76,6 +77,7 @@ export function MusicAnalyzer() {
         onSubmit={async e => {
           e.preventDefault();
           await handleAnalyze(new FormData(e.currentTarget));
+          setInputValue('');
         }}
         className="w-full flex items-center gap-3 md:gap-6"
       >
@@ -84,7 +86,11 @@ export function MusicAnalyzer() {
           <input
             type="text"
             name="videoUrl"
-            onChange={e => setIsDisabled(e.target.value.trim() === '')}
+            onChange={e => {
+              setIsDisabled(e.target.value.trim() === '');
+              setInputValue(e.target.value);
+            }}
+            value={inputValue}
             disabled={isLoading}
             className="w-[80%] px-1 ml-1 bg-transparent disabled:cursor-not-allowed outline-0 rounded-md text-foreground placeholder:text-foreground/95 text-sm md:text-base"
             placeholder="Paste a YouTube music link..."
