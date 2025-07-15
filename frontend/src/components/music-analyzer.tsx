@@ -25,7 +25,7 @@ export function MusicAnalyzer() {
     isMetadataFetched,
   } = useMusicAnalyzer();
 
-  function handleAnalyze(formData: FormData) {
+  async function handleAnalyze(formData: FormData) {
     const videoUrl = formData.get('videoUrl') as string;
     const normalizedUrl = normalizeYouTubeUrl(videoUrl);
 
@@ -37,22 +37,48 @@ export function MusicAnalyzer() {
       return;
     }
 
-    fetchMetadata(normalizedUrl);
-    fetchAnalysis(normalizedUrl);
+    toast.info('Analyzing your music... This may take a few minutes depending on the song duration.', {
+      closeButton: true,
+      duration: 7000,
+    });
+
+    try {
+      fetchMetadata(normalizedUrl);
+      await fetchAnalysis(normalizedUrl);
+
+      toast.success('Music analysis completed!', {
+        closeButton: true,
+        description: 'You can now view the music details below. 111111',
+        duration: 5000,
+      });
+    } catch (error) {
+      console.error('Error during music analysis:', error);
+
+      toast.error('Failed to analyze the music!', {
+        closeButton: true,
+        description: 'Server error during analysis. Please try again later.',
+        duration: 7000,
+      });
+    }
   }
 
   function handleGetYoutubeVideoId(videoUrl?: string) {
     const normalizedUrl = normalizeYouTubeUrl(videoUrl || '');
     if (!normalizedUrl) return null;
-    
+
     const url = new URL(normalizedUrl);
     return url.searchParams.get('v') || null;
   }
-  
 
   return (
     <div className="w-full max-w-96 mt-0 md:mt-5 flex flex-col gap-6 md:gap-10">
-      <form action={handleAnalyze} className="w-full flex items-center gap-3 md:gap-6">
+      <form
+        onSubmit={async e => {
+          e.preventDefault();
+          await handleAnalyze(new FormData(e.currentTarget));
+        }}
+        className="w-full flex items-center gap-3 md:gap-6"
+      >
         <div className="w-full bg-[#0e0e12] border border-border hover:border-muted-foreground transition-all px-3 md:px-4 py-2 rounded-xl flex items-center">
           <YoutubeLogo size={24} color="#ed1313" weight="duotone" />
           <input
