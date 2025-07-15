@@ -19,7 +19,7 @@ export function Header() {
 
         <Link href="https://www.buymeacoffee.com/tunereveal" target="_blank">
           <Image
-            src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png"
+            src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
             alt="Buy Me A Coffee"
             width={160}
             height={40}
