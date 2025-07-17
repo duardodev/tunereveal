@@ -1,0 +1,25 @@
+spring:
+  cache:
+    type: jcache
+    jcache:
+      provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
+      config: classpath:hazelcast.xml
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: backendRateLimit
+      url: .*
+      rate-limits:
+        - cache-key: "getRemoteAddr()"
+          bandwidths:
+            - capacity: 5
+              time: 1
+              unit: minutes
+            - capacity: 15
+              time: 30
+              unit: minutes
+      http-response-body: |
+        {
+          "error": "Too Many Requests",
+          "message": "You have exceeded the request limit. Please wait between 1 and 30 minutes and try again."
+        }
