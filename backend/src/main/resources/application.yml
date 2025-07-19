@@ -4,6 +4,9 @@ spring:
     jcache:
       provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
       config: classpath:hazelcast.xml
+logging:
+  level:
+    com.hazelcast: ERROR
 bucket4j:
   enabled: true
   filters:
