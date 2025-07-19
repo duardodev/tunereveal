@@ -92,7 +92,7 @@ export function MusicAnalyzer() {
         className="w-full flex items-center gap-3 md:gap-6"
       >
         <div className="w-full bg-[#0e0e12] border border-border hover:border-muted-foreground transition-all px-3 md:px-4 py-2 rounded-xl flex items-center">
-          <YoutubeLogo size={24} color="#ed1313" weight="duotone" />
+          <YoutubeLogo size={24} color="#7f22fe" weight="duotone" />
           <input
             type="text"
             name="videoUrl"
@@ -106,7 +106,7 @@ export function MusicAnalyzer() {
             placeholder="Paste a YouTube music link..."
           />
 
-          {isLoading && <CircleNotch size={20} className="animate-spin text-zinc-600 ml-auto" />}
+          {isLoading && <CircleNotch size={20} className="animate-spin text-primary ml-auto" />}
           {isSuccess && <Check size={20} className="text-green-500 ml-auto" weight="bold" />}
           {isError && <X size={20} weight="bold" className="text-red-600 ml-auto" />}
         </div>

@@ -56,7 +56,7 @@ export function HowItWorks() {
 
           <Button
             asChild
-            className="bg-primary hover:bg-primary/90 cursor-pointer text-primary-foreground px-5 py-2.5 rounded-xl flex items-center gap-3 mx-auto font-medium transition-colors"
+            className="bg-primary hover:bg-primary/90 cursor-pointer text-primary-foreground p-5 rounded-lg flex items-center gap-3 mx-auto font-medium transition-colors"
           >
             <Link href="#hero">
               Start Analyzing <ArrowUp className="w-[18px] h-[18px]" />

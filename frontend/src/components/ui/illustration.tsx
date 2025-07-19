@@ -1,5 +1,5 @@
 export default function Illustration() {
-  const stopColor = '#c42e2e';
+  const stopColor = '#7f22fe';
 
   return (
     <>
