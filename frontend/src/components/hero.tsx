@@ -12,7 +12,7 @@ export function Hero() {
         <h1 className="text-4xl sm:text-5xl text-center md:text-start leading-tight font-semibold tracking-tight text-foreground z-10">
           Uncover the Core <br />
           <span className="text-gradient">of Any Song</span>
-          <span className="text-red-500 ml-1">.</span>
+          <span className="text-primary ml-1">.</span>
         </h1>
 
         <div className="space-y-8 flex flex-col sm:flex-row md:flex-col flex-wrap md:items-start items-center justify-center">

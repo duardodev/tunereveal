@@ -19,7 +19,7 @@ export function Feature({ heading, paragraph, icon: Icon }: FeatureProps) {
       <Icon className="h-12 max-w-12 sm:max-w w-full text-primary" />
       <div className="max-w-2xs lg:max-w-full">
         <h2 className="text-foreground/95 text-xl text-center md:text-start font-bold">{heading}</h2>
-        <p className="text-center md:text-start text-foreground/90 font-medium">{paragraph}</p>
+        <p className="text-center md:text-start text-foreground/90">{paragraph}</p>
       </div>
     </div>
   );
