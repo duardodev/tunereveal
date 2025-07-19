@@ -41,6 +41,11 @@ export function useMusicAnalyzer() {
         body: JSON.stringify({ videoUrl }),
       });
 
+      if (response.status === 429) {
+        const errorData = await response.json();
+        throw new Error(errorData.error, { cause: errorData });
+      }
+
       const data = await response.json();
       return data as AnalysisData;
     },

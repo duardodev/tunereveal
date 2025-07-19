@@ -55,11 +55,21 @@ export function MusicAnalyzer() {
     } catch (error) {
       console.error('Error during music analysis:', error);
 
-      toast.error('Failed to analyze the music!', {
-        closeButton: true,
-        description: 'Server error during analysis. Please try again later.',
-        duration: 7000,
-      });
+      if (error instanceof Error && error.cause) {
+        const errorData = error.cause as { error: string; message: string };
+
+        toast.warning(errorData.error, {
+          closeButton: true,
+          description: errorData.message,
+          duration: 7000,
+        });
+      } else {
+        toast.error('Failed to analyze the music!', {
+          closeButton: true,
+          description: 'An error occurred during analysis. Please try again later.',
+          duration: 7000,
+        });
+      }
     }
   }
 
