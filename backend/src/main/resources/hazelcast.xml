@@ -11,5 +11,6 @@
             <multicast enabled="false"/>
             <tcp-ip enabled="false"/>
         </join>
+        <rest-api enabled="false" />
     </network>
 </hazelcast>
