@@ -5,9 +5,9 @@ import { Providers } from './providers';
 import { Toaster } from 'sonner';
 import { Analytics } from '@vercel/analytics/next';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { Footer } from '@/components/footer';
 import Illustration from '@/components/ui/illustration';
 import './globals.css';
-import { Footer } from '@/components/footer';
 
 const robotoSans = Roboto({
   subsets: ['latin'],
@@ -15,33 +15,45 @@ const robotoSans = Roboto({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://tunereveal.vercel.app'),
-  title: 'TuneReveal: Get the BPM, Key and Audio Analysis from Any YouTube Song',
+  title: {
+    default: 'TuneReveal: Advanced Music Analysis for YouTube Songs',
+    template: '%s | TuneReveal',
+  },
   description:
-    'TuneReveal analyze YouTube music videos and reveal musical insights like Key, BPM, and more. Perfect for creators, producers, and music lovers.',
+    'Unlock the secrets of any song with TuneReveal. Get instant BPM, key, energy level, and detailed audio analysis for any YouTube music video. Essential tool for DJs, producers, and music enthusiasts.',
   keywords: [
     'TuneReveal',
-    'music analysis',
-    'audio analysis',
-    'YouTube music analyzer',
-    'energy',
-    'loudness',
-    'BPM detection',
-    'key',
+    'music analysis tool',
+    'audio analysis software',
+    'YouTube BPM finder',
+    'song key detector',
+    'music production tools',
+    'DJ tools',
+    'music theory helper',
+    'song analysis',
     'music features',
     'Essentia',
     'song analysis tool',
+    'BPM detection',
+    'music key detection',
+    'song structure analysis',
+    'music production software',
+    'DJ software',
+    'music practice tool',
+    'audio feature extraction',
+    'music visualization',
   ],
   authors: [{ name: 'Deivit Eduardo', url: 'https://duardodev.vercel.app/' }],
   creator: 'Deivit Eduardo',
   openGraph: {
-    siteName: 'TuneReveal',
-    title: 'TuneReveal: Get the BPM, Key and Audio Analysis from Any YouTube Song',
+    title: 'TuneReveal: Advanced Music Analysis for YouTube Songs',
     description:
-      'TuneReveal analyze YouTube music videos and reveal musical insights like Key, BPM, and more. Perfect for creators, producers, and music lovers.',
+      'Get instant BPM, key, and detailed audio analysis for any YouTube music video. Essential for DJs, producers, and music lovers.',
     url: 'https://tunereveal.vercel.app',
+    siteName: 'TuneReveal',
     images: [
       {
-        url: 'https://opengraph.b-cdn.net/production/images/8ecc1286-2864-4462-89ec-26ae5eafef27.png?token=Sw9e9c1jLf_clhsbm4sN1jqU7-C1wu2NMFkMa-D4Mss&height=644&width=1200&expires=33285226025',
+        url: 'https://opengraph.b-cdn.net/production/images/0ecd209b-c31a-45ac-8986-535dd22b8e7f.png?token=cB_fUH1jHB5GdjLIl1gGmZ8r3yvHIUVZtr9SjrEnGII&height=624&width=1200&expires=33288971157',
         alt: 'TuneReveal - YouTube Music Analyzer',
       },
     ],
