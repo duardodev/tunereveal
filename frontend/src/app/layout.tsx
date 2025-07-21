@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: '%s | TuneReveal',
   },
   description:
-    'Unlock the secrets of any song with TuneReveal. Get instant BPM, key, energy level, and detailed audio analysis for any YouTube music video. Essential tool for DJs, producers, and music enthusiasts.',
+    'TuneReveal analyzes any YouTube song. Get BPM, key, loudness, and more audio insights — perfect for DJs, producers, and music fans.',
   keywords: [
     'TuneReveal',
     'music analysis tool',
