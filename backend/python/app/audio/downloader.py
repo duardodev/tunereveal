@@ -39,7 +39,6 @@ def download_audio(video_url, base_path):
             "--print-json",
             "-o", f"{base_path}.%(ext)s",
             "--no-warnings",
-            "--verbose",
             video_url
         ]
 
@@ -51,9 +50,6 @@ def download_audio(video_url, base_path):
             text=True,
             check=True
         )
-
-        print("[YT-DLP STDOUT]:", result.stdout, flush=True)
-        print("[YT-DLP STDERR]:", result.stderr, flush=True)
 
         info = json.loads(result.stdout)
         return f"{base_path}.{info['ext']}"

@@ -3,6 +3,7 @@ from app.audio.downloader import download_audio
 from app.audio.converter import convert_to_wav
 from app.audio.analyzer import analyze_audio
 from app.audio.utils import cleanup
+import gc
 import os
 import base64
 import uuid
@@ -42,6 +43,7 @@ def analyze():
         result = analyze_audio(wav_path)
 
         cleanup([audio_path, wav_path])
+        gc.collect()
 
         return jsonify(result)
     except Exception as e:
