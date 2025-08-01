@@ -1,17 +1,17 @@
 services:
-  spring-app:
-    build: .
+  node:
+    build: ./node
     ports:
-      - "8080:8080"
+      - '3333:3333'
     environment:
       - PYTHON_API_URL=${PYTHON_API_URL}
     depends_on:
-      - python-service
+      - python
 
-  python-service:
+  python:
     build: ./python
     ports:
-      - "5000:5000"
+      - '5000:5000'
     environment:
       - PROXY_URL=${PROXY_URL}
       - COOKIES_B64=${COOKIES_B64}
