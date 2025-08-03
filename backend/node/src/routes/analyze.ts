@@ -18,7 +18,7 @@ export async function analyze(app: FastifyTypedInstace) {
   });
 
   app.post(
-    '/analyze',
+    '/music/analyze',
     {
       config: {
         rateLimit: {
