@@ -1,4 +1,5 @@
 import { FastifyTypedInstace } from '../types';
+import rateLimit from '@fastify/rate-limit';
 import z from 'zod';
 
 const analysisResponseSchema = z.object({
@@ -12,9 +13,19 @@ const analysisResponseSchema = z.object({
 });
 
 export async function analyze(app: FastifyTypedInstace) {
+  await app.register(rateLimit, {
+    global: false,
+  });
+
   app.post(
     '/analyze',
     {
+      config: {
+        rateLimit: {
+          max: 5,
+          timeWindow: '1 minute',
+        },
+      },
       schema: {
         body: z.object({
           videoUrl: z.url(),
