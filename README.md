@@ -11,18 +11,17 @@
 - 🎧 Download audio directly from YouTube videos.
 - 🎼 Analyze **key** and **camelot** (including alternative key detection).
 - 🎚️ Detect **BPM (tempo)** accurately.
-- 🥁 Time signature detection (e.g., 4/4, 3/4)
-- 🔊 Loudness measurement (LUFS)
-- 📊 Frontend interface to visualize results
-
+- 🥁 Time signature detection (e.g., 4/4, 3/4).
+- 🔊 Loudness measurement (LUFS).
+- 📊 Frontend interface to visualize results.
 
 ## 🛠️ Tech Stack
 
-- **Next.js + TypeScript** — Responsive and interactive frontend for visualizing and managing audio analysis results.
-- **Spring Boot (Java 21)** — Main backend service and API provider.
+- **Next.js + TypeScript + TailwindCSS** — Responsive and interactive frontend for visualizing and managing audio analysis results.
+- **Node.js + Fastify + TypeScript** — Main backend service and API provider.
 - **Python + Flask** — Microservice for audio processing.
 - **yt-dlp + ffmpeg + aria2c** — Audio processing (download and conversion).
-- **Essentia** — Audio feature extraction (key, BPM, time signature, loudness).
+- **Essentia** — Extraction of musical features (key, BPM, time signature, loudness).
 - **Docker + Docker Compose** — Containerization and orchestration.
 
 ## 📦 Prerequisites
@@ -30,7 +29,7 @@
 Before running this project, ensure you have the following installed:
 
 - Docker & Docker Compose
-- Node.js and npm (for frontend development)
+- Node.js and npm
 
 ## 🚀 Installation
 
@@ -44,11 +43,13 @@ cd tunereveal
 ### Backend Setup
 
 1. Navigate to the backend folder:
+
    ```bash
    cd backend
    ```
 
 2. Copy environment variables file:
+
    ```bash
    cp .env.example .env
    ```
@@ -61,16 +62,19 @@ cd tunereveal
 ### Frontend Setup
 
 1. Navigate to the frontend folder:
+
    ```bash
    cd frontend
    ```
 
 2. Copy environment variables file:
+
    ```bash
    cp .env.example .env
    ```
 
-2. Install dependencies:
+3. Install dependencies:
+
    ```bash
    npm install
    ```
@@ -85,15 +89,15 @@ cd tunereveal
 1. Open the frontend app in your browser at `http://localhost:3000`.
 2. Enter a YouTube video URL in the input form.
 3. Submit and wait a few moments while the audio is processed.
-4. View the detailed audio analysis results displayed on the page.
+4. View the detailed music analysis results displayed on the page.
 
 ## 📡 API Endpoints
 
-| Method | Endpoint        | Description                                        |
-|--------|----------------|----------------------------------------------------|
-| POST   | `/api/audio/analyze` | Submit a YouTube URL and receive audio analysis   |
-| POST   | `/analyze`     | Audio analysis endpoint on Python microservice    |
-| GET    | `/health`  | Health check endpoint                              |
+| Method | Endpoint         | Description                                         |
+| ------ | ---------------- | --------------------------------------------------- |
+| POST   | `/music/analyze` | Submit a YouTube URL and receive the music analysis |
+| POST   | `/analyze`       | Audio analysis endpoint on Python microservice      |
+| GET    | `/health`        | Health check endpoint                               |
 
 ## 🤝 Contributing
 
