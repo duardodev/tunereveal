@@ -33,7 +33,7 @@ export function useMusicAnalyzer() {
     isError: isAnalysisFetchError,
   } = useMutation({
     mutationFn: async (videoUrl: string) => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/analyze`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/music/analyze`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
