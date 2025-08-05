@@ -11,7 +11,7 @@ function getYouTubeVideoId(url: string): string | null {
   const urlWithoutProtocol = url.replace(/^(https?:\/\/)?(www\.)?/, '');
 
   if (urlWithoutProtocol.startsWith('youtu.be/')) {
-    const id = urlWithoutProtocol.split('/')[1];
+    const id = urlWithoutProtocol.split('/')[1].split('?')[0];
     return id && id.length === 11 ? id : null;
   }
 
