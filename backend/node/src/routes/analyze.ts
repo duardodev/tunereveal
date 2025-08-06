@@ -27,12 +27,15 @@ export async function analyze(app: FastifyTypedInstace) {
         },
       },
       schema: {
+        description: `Analyzes a music track from a YouTube video URL.
+        This endpoint sends the provided video URL to an internal Python microservice, which handles downloading, converting, and analyzing the audio. The result includes details such as BPM, key, Camelot notation, and loudness.`,
+        tags: ['music'],
         body: z.object({
-          videoUrl: z.url(),
+          videoUrl: z.url().describe('A YouTube video URL containing the track to be analyzed.'),
         }),
         response: {
-          200: analysisResponseSchema.describe('Analysis result'),
-          500: z.string().describe('Error fetching from Python API'),
+          200: analysisResponseSchema.describe('Audio analysis result returned from the Python microservice.'),
+          500: z.string().describe('Error while fetching or processing from the Python microservice.'),
         },
       },
     },
