@@ -91,13 +91,9 @@ cd tunereveal
 3. Submit and wait a few moments while the audio is processed.
 4. View the detailed music analysis results displayed on the page.
 
-## 📡 API Endpoints
+## 📡 API Documentation
 
-| Method | Endpoint         | Description                                         |
-| ------ | ---------------- | --------------------------------------------------- |
-| POST   | `/music/analyze` | Submit a YouTube URL and receive the music analysis |
-| POST   | `/analyze`       | Audio analysis endpoint on Python microservice      |
-| GET    | `/health`        | Health check endpoint                               |
+Documentation is available [here](https://tunereveal-node.onrender.com/docs)
 
 ## 🤝 Contributing
 
