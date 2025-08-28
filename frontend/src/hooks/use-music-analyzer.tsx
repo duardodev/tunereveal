@@ -18,8 +18,8 @@ export function useMusicAnalyzer() {
     isSuccess: isMetadataFetched,
     isError: isMetadataFetchError,
   } = useMutation({
-    mutationFn: async (videoUrl: string) => {
-      const response = await fetch(`https://noembed.com/embed?url=${videoUrl}`);
+    mutationFn: async (youtubeMusicUrl: string) => {
+      const response = await fetch(`https://noembed.com/embed?url=${youtubeMusicUrl}`);
       const data = await response.json();
       return data;
     },
@@ -32,13 +32,13 @@ export function useMusicAnalyzer() {
     isSuccess: isAnalysisFetched,
     isError: isAnalysisFetchError,
   } = useMutation({
-    mutationFn: async (videoUrl: string) => {
+    mutationFn: async (youtubeMusicUrl: string) => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/music/analyze`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ videoUrl }),
+        body: JSON.stringify({ youtubeMusicUrl }),
       });
 
       if (response.status === 429) {

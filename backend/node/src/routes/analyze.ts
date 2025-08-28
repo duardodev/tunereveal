@@ -27,20 +27,22 @@ export async function analyze(app: FastifyTypedInstace) {
         },
       },
       schema: {
-        description: `Analyzes a music track from a YouTube video URL.
-        This endpoint sends the provided video URL to an internal Python microservice, which handles downloading, converting, and analyzing the audio. The result includes details such as BPM, key, Camelot notation, and loudness.`,
+        description: `Analyzes a music track from a YouTube URL to extract musical characteristics.
+        This endpoint processes the provided YouTube music URL through an internal Python microservice that downloads, converts, and analyzes the audio. Returns comprehensive musical analysis including BPM, musical key (with Camelot notation), time signature, and loudness measurements.`,
         tags: ['music'],
         body: z.object({
-          videoUrl: z.url().describe('A YouTube video URL containing the track to be analyzed.'),
+          youtubeMusicUrl: z.url().describe('YouTube URL containing the music track to be analyzed.'),
         }),
         response: {
-          200: analysisResponseSchema.describe('Audio analysis result returned from the Python microservice.'),
-          500: z.string().describe('Error while fetching or processing from the Python microservice.'),
+          200: analysisResponseSchema.describe(
+            'Successful music analysis with BPM, key, time signature, and loudness data.'
+          ),
+          500: z.string().describe('Internal server error during music analysis processing.'),
         },
       },
     },
     async (request, reply) => {
-      const { videoUrl } = request.body;
+      const { youtubeMusicUrl } = request.body;
 
       try {
         const response = await fetch(`${process.env.PYTHON_API_URL}/analyze`, {
@@ -48,7 +50,7 @@ export async function analyze(app: FastifyTypedInstace) {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ video_url: videoUrl }),
+          body: JSON.stringify({ youtube_music_url: youtubeMusicUrl }),
         });
 
         const data = await response.json();

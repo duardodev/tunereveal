@@ -23,14 +23,14 @@ def health():
 def analyze():
     try:
         data = request.get_json()
-        video_url = data.get("video_url")
-        if not video_url:
-            return jsonify({"error": "Missing video_url"}), 400
+        youtube_music_url = data.get("youtube_music_url")
+        if not youtube_music_url:
+            return jsonify({"error": "Missing youtube_music_url"}), 400
 
         uid = uuid.uuid4().hex
         base_path = f"{TMP_DIR}/{uid}"
 
-        audio_path = download_audio(video_url, base_path)
+        audio_path = download_audio(youtube_music_url, base_path)
         if not audio_path:
             return jsonify({"error": "Download failed"}), 500
 
