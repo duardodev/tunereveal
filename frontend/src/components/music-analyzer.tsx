@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { YoutubeLogo, MagnifyingGlass, CircleNotch, Check, X } from '@phosphor-icons/react/dist/ssr';
-import { normalizeYouTubeUrl } from '@/utils/normalize-youtube-url';
+import { getYouTubeVideoId, normalizeYouTubeUrl } from '@/utils/normalize-youtube-url';
 import { Skeleton } from './ui/skeleton';
 import { MusicInfoItem } from './music-info-item';
 import { useMusicAnalyzer } from '@/hooks/use-music-analyzer';
@@ -27,13 +27,13 @@ export function MusicAnalyzer() {
   } = useMusicAnalyzer();
 
   async function handleAnalyze(formData: FormData) {
-    const videoUrl = formData.get('videoUrl') as string;
-    const normalizedUrl = normalizeYouTubeUrl(videoUrl);
+    const youtubeMusicUrl = formData.get('youtubeMusicUrl') as string;
+    const normalizedMusicUrl = normalizeYouTubeUrl(youtubeMusicUrl);
 
-    if (!normalizedUrl) {
+    if (!normalizedMusicUrl) {
       toast.error('Invalid YouTube link!', {
         closeButton: true,
-        description: 'Please enter a valid YouTube video link.',
+        description: 'Please enter a valid YouTube music link.',
       });
       return;
     }
@@ -44,8 +44,8 @@ export function MusicAnalyzer() {
     });
 
     try {
-      await fetchMetadata(normalizedUrl);
-      await fetchAnalysis(normalizedUrl);
+      await fetchMetadata(normalizedMusicUrl);
+      await fetchAnalysis(normalizedMusicUrl);
 
       toast.success('Music analysis completed!', {
         closeButton: true,
@@ -73,14 +73,6 @@ export function MusicAnalyzer() {
     }
   }
 
-  function handleGetYoutubeVideoId(videoUrl?: string) {
-    const normalizedUrl = normalizeYouTubeUrl(videoUrl || '');
-    if (!normalizedUrl) return null;
-
-    const url = new URL(normalizedUrl);
-    return url.searchParams.get('v') || null;
-  }
-
   return (
     <div className="w-full max-w-96 mt-0 md:mt-5 flex flex-col gap-6 md:gap-10">
       <form
@@ -95,7 +87,7 @@ export function MusicAnalyzer() {
           <YoutubeLogo size={24} color="#7f22fe" weight="duotone" />
           <input
             type="text"
-            name="videoUrl"
+            name="youtubeMusicUrl"
             onChange={e => {
               setIsDisabled(e.target.value.trim() === '');
               setInputValue(e.target.value);
@@ -124,7 +116,7 @@ export function MusicAnalyzer() {
         {isMetadataFetched ? (
           <>
             <iframe
-              src={`https://www.youtube.com/embed/${handleGetYoutubeVideoId(metadata?.url)}`}
+              src={`https://www.youtube.com/embed/${getYouTubeVideoId(metadata?.url)}`}
               className="w-full h-40 md:h-52 rounded-lg"
             />
             <p className="mt-5 text-secondary-foreground font-medium">{metadata?.title}</p>

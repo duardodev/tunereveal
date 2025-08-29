@@ -7,7 +7,7 @@ export function normalizeYouTubeUrl(url: string): string | null {
   return `https://youtube.com/watch?v=${videoId}`;
 }
 
-function getYouTubeVideoId(url: string): string | null {
+export function getYouTubeVideoId(url: string): string | null {
   const urlWithoutProtocol = url.replace(/^(https?:\/\/)?(www\.)?/, '');
 
   if (urlWithoutProtocol.startsWith('youtu.be/')) {
