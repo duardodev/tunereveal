@@ -78,7 +78,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="overflow-x-hidden">
+    <html lang="en" className="overflow-x-hidden scroll-smooth">
       <body
         className={`${robotoSans.className} dark antialiased w-full px-4 mx-auto max-w-[1140px] relative flex flex-col overflow-hidden`}
       >
