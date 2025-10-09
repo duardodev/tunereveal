@@ -16,11 +16,11 @@ const robotoSans = Roboto({
 export const metadata: Metadata = {
   metadataBase: new URL('https://tunereveal.vercel.app'),
   title: {
-    default: 'TuneReveal: Advanced Music Analysis for YouTube Songs',
+    default: 'TuneReveal: Discover BPM, key & more — straight from YouTube.',
     template: '%s | TuneReveal',
   },
   description:
-    'TuneReveal analyzes any YouTube song. Get BPM, key, loudness, and more audio insights — perfect for DJs, producers, and music fans.',
+    'TuneReveal analyzes any YouTube track. Get BPM, key, loudness, and more audio insights — perfect for DJs, producers, and music fans.',
   keywords: [
     'TuneReveal',
     'music analysis tool',
@@ -46,9 +46,9 @@ export const metadata: Metadata = {
   authors: [{ name: 'Deivit Eduardo', url: 'https://duardodev.vercel.app/' }],
   creator: 'Deivit Eduardo',
   openGraph: {
-    title: 'TuneReveal: Advanced Music Analysis for YouTube Songs',
+    title: 'TuneReveal: Discover BPM, key & more — straight from YouTube.',
     description:
-      'Get instant BPM, key, and detailed audio analysis for any YouTube music video. Essential for DJs, producers, and music lovers.',
+      'TuneReveal analyzes any YouTube track. Get BPM, key, loudness, and more audio insights — perfect for DJs, producers, and music fans.',
     url: 'https://tunereveal.vercel.app',
     siteName: 'TuneReveal',
     images: [
