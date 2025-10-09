@@ -83,7 +83,7 @@ export function MusicAnalyzer() {
         }}
         className="w-full flex items-center gap-3 md:gap-6"
       >
-        <div className="w-full bg-[#0e0e12] border border-border hover:border-muted-foreground transition-all px-3 md:px-4 py-2 rounded-xl flex items-center">
+        <div className="w-full bg-[#0f0f14] shadow-m border-b border-border/40 transition-all px-3 md:px-4 py-2 rounded-xl flex items-center">
           <YoutubeLogo size={24} color="#7f22fe" weight="duotone" />
           <input
             type="text"
@@ -106,13 +106,13 @@ export function MusicAnalyzer() {
         <button
           type="submit"
           disabled={isDisabled || isLoading}
-          className="bg-[#0e0e12] border border-border cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:bg-muted transition-all w-10 sm:w-12 h-10 flex items-center justify-center rounded-xl"
+          className="bg-[#0f0f14] shadow-m border-b border-border/40 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 enabled:hover:bg-muted transition-all w-10 sm:w-12 h-10 flex items-center justify-center rounded-xl"
         >
           <MagnifyingGlass size={24} color="#efeaea" />
         </button>
       </form>
 
-      <div className="bg-[#0e0e12] border border-border w-full rounded-xl p-4 md:p-5 space-y-4 md:space-y-5">
+      <div className="bg-[#0f0f14] shadow-m border-b border-border/40 w-full rounded-xl p-4 md:p-5 space-y-4 md:space-y-5">
         {isMetadataFetched ? (
           <>
             <iframe
