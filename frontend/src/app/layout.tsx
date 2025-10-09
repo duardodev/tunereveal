@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     siteName: 'TuneReveal',
     images: [
       {
-        url: 'https://opengraph.b-cdn.net/production/images/0ecd209b-c31a-45ac-8986-535dd22b8e7f.png?token=cB_fUH1jHB5GdjLIl1gGmZ8r3yvHIUVZtr9SjrEnGII&height=624&width=1200&expires=33288971157',
+        url: process.env.OG_IMAGE_URL!,
         alt: 'TuneReveal - YouTube Music Analyzer',
       },
     ],
