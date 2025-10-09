@@ -1,7 +1,8 @@
+import Link from 'next/link';
 import { LinkIcon, Play, BarChart3, Eye, ArrowUp } from 'lucide-react';
 import { Step } from './step';
 import { Button } from './ui/button';
-import Link from 'next/link';
+import { Highlighter } from './ui/highlighter';
 
 export function HowItWorks() {
   const steps = [
@@ -37,8 +38,16 @@ export function HowItWorks() {
         <div className="flex flex-col items-center space-y-16">
           <div className="text-center space-y-4">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-gradient">How It Works</h2>
-            <p className="text-lg text-foreground/80 max-w-2xl leading-relaxed">
-              Analyze any YouTube music video in seconds. Get professional-grade musical insights with just a link.
+            <p className="text-center leading-relaxed mt-4 px-12">
+              TuneReveal makes it easy to{' '}
+              <Highlighter action="underline" color="#9c40ff">
+                discover BPM, key, and more
+              </Highlighter>{' '}
+              from your favorite tracks. Paste a YouTube link and{' '}
+              <Highlighter action="underline" color="#ffaa40">
+                unlock the core details
+              </Highlighter>{' '}
+              of any music in seconds!
             </p>
           </div>
 
