@@ -1,13 +1,13 @@
-FROM python:3.9-slim
+FROM python:3.11-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libfftw3-dev \
-    libavcodec-dev \
-    ffmpeg \
-    aria2 \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/* \
-    && mkdir -p /tmp && chmod -R a+rw /tmp
+ libfftw3-dev \
+ libavcodec-dev \
+ ffmpeg \
+ aria2 \
+ ca-certificates \
+ && rm -rf /var/lib/apt/lists/* \
+ && mkdir -p /tmp && chmod -R a+rw /tmp
 
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt

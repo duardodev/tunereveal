@@ -15,3 +15,6 @@ services:
     environment:
       - PROXY_URL=${PROXY_URL}
       - COOKIES_B64=${COOKIES_B64}
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
