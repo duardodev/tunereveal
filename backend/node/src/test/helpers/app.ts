@@ -4,7 +4,7 @@ import { serializerCompiler, validatorCompiler, ZodTypeProvider } from 'fastify-
 import { health } from '../../routes/health';
 import { analyze } from '../../routes/analyze';
 
-export async function buildApp() {
+export async function buildApp(options?: { enableRateLimit?: boolean }) {
   const app = fastify({
     logger: false,
   }).withTypeProvider<ZodTypeProvider>();
@@ -17,7 +17,9 @@ export async function buildApp() {
   });
 
   await app.register(health);
-  await app.register(analyze);
+  await app.register(analyze, {
+    enableRateLimit: options?.enableRateLimit ?? false,
+  });
 
   await app.ready();
 
