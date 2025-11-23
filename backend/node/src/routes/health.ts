@@ -9,7 +9,7 @@ export async function health(app: FastifyInstance) {
       },
     },
     (_, reply) => {
-      return reply.status(200).send('OK');
+      return reply.status(200).send({ status: 'ok' });
     }
   );
 }
