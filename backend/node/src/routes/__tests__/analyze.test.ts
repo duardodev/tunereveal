@@ -9,16 +9,25 @@ describe('Analyze Route - Unit Tests', () => {
     youtubeMusicUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
   };
 
+  let consoleLogSpy: jest.SpyInstance;
+  let consoleErrorSpy: jest.SpyInstance;
+
+  beforeAll(() => {
+    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
+  });
+
+  afterAll(() => {
+    consoleLogSpy.mockRestore();
+    consoleErrorSpy.mockRestore();
+  });
+
   beforeEach(async () => {
     app = await buildApp();
   });
 
   afterEach(async () => {
     await app.close();
-    nock.cleanAll();
-  });
-
-  afterEach(() => {
     nock.cleanAll();
   });
 
@@ -54,7 +63,7 @@ describe('Analyze Route - Unit Tests', () => {
     it('should return 400 for invalid YouTube URL', async () => {
       const response = await app.inject({
         method: 'POST',
-        url: 'music/analyze',
+        url: '/music/analyze',
         payload: {
           youtubeMusicUrl: 'invalid-url',
         },
@@ -78,7 +87,7 @@ describe('Analyze Route - Unit Tests', () => {
 
       const response = await app.inject({
         method: 'POST',
-        url: 'music/analyze',
+        url: '/music/analyze',
         payload: validPayload,
       });
 
