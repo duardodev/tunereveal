@@ -1,8 +1,9 @@
 import subprocess
-import json
 import traceback
 import os
+import glob
 import requests
+
 
 def test_proxy(proxy_url):
     try:
@@ -18,6 +19,13 @@ def test_proxy(proxy_url):
         return False
 
 
+def find_downloaded_audio(base_path):
+    matches = glob.glob(f"{base_path}.*")
+    if not matches:
+        raise RuntimeError("Download finished but no output file was found")
+    return matches[0]
+
+
 def download_audio(video_url, base_path):
     proxy_url = os.getenv("PROXY_URL")
 
@@ -31,7 +39,7 @@ def download_audio(video_url, base_path):
             "--cookies", "cookies.txt",
             "--user-agent",
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "-f", "bestaudio[ext=m4a]/bestaudio",
+            "-f", "bestaudio/best",
             "--limit-rate", "400K",
             "--no-playlist",
             "--no-warnings",
@@ -55,13 +63,7 @@ def download_audio(video_url, base_path):
         if result.returncode != 0:
             raise RuntimeError(result.stderr)
 
-        # detectar arquivo baixado
-        for ext in ("m4a", "webm", "mp3", "opus"):
-            path = f"{base_path}.{ext}"
-            if os.path.exists(path):
-                return path
-
-        raise RuntimeError("Download finished but file not found")
+        return find_downloaded_audio(base_path)
 
     except Exception as e:
         stderr = str(e)
@@ -72,7 +74,13 @@ def download_audio(video_url, base_path):
                 "retryable": False
             }
 
-        if "fragment" in stderr or "aria2c" in stderr:
+        if "Requested format is not available" in stderr:
+            return {
+                "error": "AUDIO_FORMAT_NOT_AVAILABLE",
+                "retryable": False
+            }
+
+        if "fragment" in stderr.lower():
             return {
                 "error": "FRAGMENT_DOWNLOAD_FAILED",
                 "retryable": True

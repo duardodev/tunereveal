@@ -4,7 +4,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  libfftw3-dev \
  libavcodec-dev \
  ffmpeg \
- aria2 \
  ca-certificates \
  && rm -rf /var/lib/apt/lists/* \
  && mkdir -p /tmp && chmod -R a+rw /tmp
