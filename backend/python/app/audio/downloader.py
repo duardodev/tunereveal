@@ -36,18 +36,19 @@ def download_audio(video_url, base_path):
         command = [
             "yt-dlp",
             "--cookies", "cookies.txt",
-
+            
             "--user-agent",
             "Mozilla/5.0 (Linux; Android 12; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36",
-
             "--extractor-args", "youtube:player_client=android",
             "--add-header", "Accept-Language:en-US,en;q=0.9",
 
-            "-f", "(bestaudio/best)",
-
+            "-f", "bestaudio/best",
             "--no-playlist",
             "--no-warnings",
             "--newline",
+
+            "--extractor-retries", "3",
+            "--fragment-retries", "5",
             "-o", f"{base_path}.%(ext)s",
         ]
 
@@ -107,6 +108,7 @@ def download_audio(video_url, base_path):
         if "Requested format is not available" in stderr:
             return {
                 "error": "AUDIO_FORMAT_NOT_AVAILABLE",
+                "message": "The requested audio format is not available for this video",
                 "retryable": False
             }
 
