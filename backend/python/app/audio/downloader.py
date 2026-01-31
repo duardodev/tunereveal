@@ -35,9 +35,9 @@ def download_audio(video_url, base_path):
 
         command = [
             "yt-dlp",
-            "--cookies", "cookies.txt",
             "--user-agent",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 12; Pixel 5)",
+            "--extractor-args", "youtube:player_client=android",
             "--add-header", "Accept-Language:en-US,en;q=0.9",
             "-f", "bestaudio/best",
             "--no-playlist",
