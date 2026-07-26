@@ -11,11 +11,16 @@ def test_proxy(proxy_url):
             proxies={"http": proxy_url, "https": proxy_url},
             timeout=15
         )
-        print(f"[DEBUG] Proxy working. IP: {response.json()['origin']}")
-        return True
+        if response.status_code == 200:
+            print(f"[DEBUG] Proxy working. IP: {response.json()['origin']}")
+            return True
+        else:
+            print(f"[WARNING] Proxy returned status {response.status_code}. Will try using it anyway...")
+            return True  # Try using it anyway for yt-dlp
     except Exception as e:
-        print(f"[ERROR] Proxy not working: {e}")
-        return False
+        print(f"[WARNING] Proxy test failed: {e}. Will try using it anyway...")
+        # Don't disable proxy if test fails - it might still work for yt-dlp
+        return True
 
 
 def find_downloaded_audio(base_path):
@@ -29,8 +34,11 @@ def download_audio(video_url, base_path):
     proxy_url = os.getenv("PROXY_URL")
 
     try:
-        if proxy_url and not test_proxy(proxy_url):
-            print("[WARNING] Proxy disabled due to failure")
+        if proxy_url:
+            test_result = test_proxy(proxy_url)
+            if not test_result:
+                print("[INFO] Proxy test failed, but will try using it anyway for yt-dlp")
+        else:
             proxy_url = None
 
         command = [

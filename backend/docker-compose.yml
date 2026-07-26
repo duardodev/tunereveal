@@ -18,3 +18,8 @@ services:
     dns:
       - 8.8.8.8
       - 8.8.4.4
+    volumes:
+      - tunereveal_cache:/data
+
+volumes:
+  tunereveal_cache:
