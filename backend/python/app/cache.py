@@ -3,14 +3,11 @@ import json
 import os
 from datetime import datetime, timedelta
 
-CACHE_DB_PATH = "/data/analysis_cache.db"
+CACHE_DB_PATH = "/tmp/analysis_cache.db"
 INACTIVITY_DAYS = 60  # Remove entries not accessed in 60 days
 
 def init_cache():
     """Initialize the cache database."""
-    # Ensure data directory exists
-    os.makedirs(os.path.dirname(CACHE_DB_PATH), exist_ok=True)
-    
     conn = sqlite3.connect(CACHE_DB_PATH)
     cursor = conn.cursor()
     cursor.execute('''
