@@ -15,5 +15,5 @@ WORKDIR /app
 COPY main.py ./
 COPY app/ app/
 
-EXPOSE 5000
+EXPOSE 80
 CMD ["python", "-u", "main.py"]
