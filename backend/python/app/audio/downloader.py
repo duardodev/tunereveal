@@ -3,6 +3,7 @@ import traceback
 import os
 import glob
 import requests
+import sys
 
 def test_proxy(proxy_url):
     try:
@@ -42,7 +43,9 @@ def download_audio(video_url, base_path):
             proxy_url = None
 
         command = [
-            "yt-dlp",
+            sys.executable,
+            "-m",
+            "yt_dlp",
             "--user-agent",
             "Mozilla/5.0 (Linux; Android 12; Pixel 5)",
             "--extractor-args", "youtube:player_client=android",
